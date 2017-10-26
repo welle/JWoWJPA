@@ -23,7 +23,7 @@ public class ItemController {
 
     private EntityManager getEntityManager() {
         if (this.emf == null) {
-            this.emf = Persistence.createEntityManagerFactory("JDumpWoW");
+            this.emf = Persistence.createEntityManagerFactory("jwow");
             this.emf.getCache().evictAll();
         }
         return this.emf.createEntityManager();
