@@ -69,6 +69,25 @@ public class ItemController {
     }
 
     /**
+     * Get item by name "like".
+     *
+     * @return List of item
+     */
+    @NonNull
+    public List<@NonNull Item> getItemByNameLike(@NonNull final String terms) {
+        List<@NonNull Item> result = new ArrayList<>();
+        final EntityManager em = getEntityManager();
+        try {
+            final javax.persistence.Query q = em.createQuery("select c from Item c Where nameEN like '" + terms + "%' or name like '" + terms + "%'");
+            result = q.getResultList();
+        } finally {
+            em.close();
+        }
+
+        return result;
+    }
+
+    /**
      * Get item by id.
      *
      * @return List of item
