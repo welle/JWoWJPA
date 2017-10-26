@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	<persistence-unit name="JWoWJPA">
+		<class>aka.jwowjpa.model.Item</class>
+		<class>aka.jwowjpa.model.Mount</class>
+		<class>aka.jwowjpa.model.PasswordReset</class>
+		<class>aka.jwowjpa.model.Spell</class>
+		<class>aka.jwowjpa.model.User</class>
+		<class>aka.jwowjpa.ItemhasspellPK</class>
+		<class>aka.jwowjpa.model.Itemhasspell</class>
+		<class>aka.jwowjpa.model.ItemhasspellPK</class>
 	</persistence-unit>
 </persistence>
