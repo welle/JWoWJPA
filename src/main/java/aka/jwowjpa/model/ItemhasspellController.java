@@ -35,8 +35,8 @@ public class ItemhasspellController {
      * @return List of Itemhasspell
      */
     @NonNull
-    public List<aka.jwowjpa.model.ItemhasspellPK> getItemhasspells() {
-        List<aka.jwowjpa.model.ItemhasspellPK> result = new ArrayList<>();
+    public List<ItemhasspellPK> getItemhasspells() {
+        List<ItemhasspellPK> result = new ArrayList<>();
         final EntityManager em = getEntityManager();
         try {
             final javax.persistence.Query q = em.createQuery("select c from Itemhasspell c");

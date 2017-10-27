@@ -6,7 +6,6 @@
 		<class>aka.jwowjpa.model.PasswordReset</class>
 		<class>aka.jwowjpa.model.Spell</class>
 		<class>aka.jwowjpa.model.User</class>
-		<class>aka.jwowjpa.ItemhasspellPK</class>
 		<class>aka.jwowjpa.model.Itemhasspell</class>
 		<class>aka.jwowjpa.model.ItemhasspellPK</class>
 	</persistence-unit>

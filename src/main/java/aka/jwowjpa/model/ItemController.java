@@ -5,11 +5,12 @@ import java.util.List;
 import java.util.logging.Level;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 
 import org.eclipse.jdt.annotation.NonNull;
+import org.springframework.stereotype.Repository;
 
 import aka.jwowjpa.context.ApplicationContext;
 
@@ -18,15 +19,18 @@ import aka.jwowjpa.context.ApplicationContext;
  *
  * @author charlottew
  */
+@Repository
 public class ItemController {
-    private EntityManagerFactory emf;
 
-    private EntityManager getEntityManager() {
-        if (this.emf == null) {
-            this.emf = Persistence.createEntityManagerFactory("jwow");
-            this.emf.getCache().evictAll();
-        }
-        return this.emf.createEntityManager();
+    protected EntityManager entityManager;
+
+    public EntityManager getEntityManager() {
+        return this.entityManager;
+    }
+
+    @PersistenceContext
+    public void setEntityManager(final EntityManager entityManager) {
+        this.entityManager = entityManager;
     }
 
     /**
@@ -34,6 +38,7 @@ public class ItemController {
      *
      * @return List of items
      */
+    @Transactional
     @NonNull
     public List<aka.jwowjpa.model.Item> getItems() {
         List<aka.jwowjpa.model.Item> result = new ArrayList<>();
@@ -53,6 +58,7 @@ public class ItemController {
      *
      * @return List of item
      */
+    @Transactional
     @NonNull
     public List<aka.jwowjpa.model.Item> getLatestItem() {
         List<aka.jwowjpa.model.Item> result = new ArrayList<>();
@@ -73,6 +79,7 @@ public class ItemController {
      *
      * @return List of item
      */
+    @Transactional
     @NonNull
     public List<@NonNull Item> getItemByNameLike(@NonNull final String terms) {
         List<@NonNull Item> result = new ArrayList<>();
@@ -92,8 +99,9 @@ public class ItemController {
      *
      * @return List of item
      */
+    @Transactional
     @NonNull
-    public List<aka.jwowjpa.model.Item> getItemById(final int id) {
+    public List<aka.jwowjpa.model.Item> getItemById(@NonNull final Long id) {
         List<aka.jwowjpa.model.Item> result = new ArrayList<>();
         final EntityManager em = getEntityManager();
         try {
@@ -113,6 +121,7 @@ public class ItemController {
      * @param item
      * @return inserted item
      */
+    @Transactional
     @NonNull
     public Item insert(@NonNull final Item item) {
         try {
@@ -134,6 +143,7 @@ public class ItemController {
      * @param item
      * @return update item
      */
+    @Transactional
     @NonNull
     public Item update(@NonNull final Item item) {
         try {
