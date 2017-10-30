@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence 
   http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
 
-	<persistence-unit name="jwow" transaction-type="RESOURCE_LOCAL">
+	<persistence-unit name="jwowtest" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		<class>aka.jwowjpa.persistence.models.Item</class>
 		<class>aka.jwowjpa.persistence.models.Mount</class>

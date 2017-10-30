@@ -1,20 +1,23 @@
-package aka.jwowjpa.model;
+package aka.jwowjpa.persistence.models;
 
 import java.io.Serializable;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+
+import org.springframework.stereotype.Component;
 
 /**
  * The persistent class for the itemhasspell database table.
  *
  */
+@Component
 @Entity
-@NamedQuery(name = "Itemhasspell.findAll", query = "SELECT i FROM Itemhasspell i")
+@Table(name = "itemhasspell")
 public class Itemhasspell implements Serializable {
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = 6235948467267475366L;
     @EmbeddedId
     private ItemhasspellPK id;
 

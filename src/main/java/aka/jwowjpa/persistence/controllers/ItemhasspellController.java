@@ -1,33 +1,29 @@
-package aka.jwowjpa.model;
+package aka.jwowjpa.persistence.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
 
 import org.eclipse.jdt.annotation.NonNull;
+import org.springframework.stereotype.Repository;
 
 import aka.jwowjpa.context.ApplicationContext;
+import aka.jwowjpa.persistence.models.ItemhasspellPK;
 
 /**
  * Itemhasspell controller.
  *
  * @author charlottew
  */
+@Repository
 public class ItemhasspellController {
-    private EntityManagerFactory emf;
 
-    private EntityManager getEntityManager() {
-        if (this.emf == null) {
-            this.emf = Persistence.createEntityManagerFactory("JDumpWoW");
-            this.emf.getCache().evictAll();
-        }
-        return this.emf.createEntityManager();
-    }
+    @PersistenceContext
+    private EntityManager entityManager;
 
     /**
      * Get all Itemhasspell.
@@ -37,12 +33,11 @@ public class ItemhasspellController {
     @NonNull
     public List<ItemhasspellPK> getItemhasspells() {
         List<ItemhasspellPK> result = new ArrayList<>();
-        final EntityManager em = getEntityManager();
         try {
-            final javax.persistence.Query q = em.createQuery("select c from Itemhasspell c");
+            final javax.persistence.Query q = this.entityManager.createQuery("select c from Itemhasspell c");
             result = q.getResultList();
         } finally {
-            em.close();
+            this.entityManager.close();
         }
 
         return result;
@@ -57,10 +52,9 @@ public class ItemhasspellController {
     @NonNull
     public ItemhasspellPK insert(@NonNull final ItemhasspellPK itemhasspellPK) {
         try {
-            final EntityManager em = getEntityManager();
-            final EntityTransaction tx = em.getTransaction();
+            final EntityTransaction tx = this.entityManager.getTransaction();
             tx.begin();
-            em.persist(itemhasspellPK);
+            this.entityManager.persist(itemhasspellPK);
             tx.commit();
         } catch (final Exception e) {
             ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, "ItemhasspellController", "insert", e.getMessage(), e);
@@ -78,10 +72,9 @@ public class ItemhasspellController {
     @NonNull
     public ItemhasspellPK update(@NonNull final ItemhasspellPK itemhasspellPK) {
         try {
-            final EntityManager em = getEntityManager();
-            final EntityTransaction tx = em.getTransaction();
+            final EntityTransaction tx = this.entityManager.getTransaction();
             tx.begin();
-            em.merge(itemhasspellPK);
+            this.entityManager.merge(itemhasspellPK);
             tx.commit();
         } catch (final Exception e) {
             ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, "ItemhasspellController", "update", e.getMessage(), e);

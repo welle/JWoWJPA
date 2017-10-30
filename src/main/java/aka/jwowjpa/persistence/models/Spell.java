@@ -1,4 +1,4 @@
-package aka.jwowjpa.model;
+package aka.jwowjpa.persistence.models;
 
 import java.io.Serializable;
 import java.util.List;
@@ -8,18 +8,24 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import org.springframework.stereotype.Component;
 
 /**
- * The persistent class for the item database table.
+ * The persistent class for the spell database table.
  *
  */
+@Component
 @Entity
-@NamedQuery(name = "Item.findAll", query = "SELECT i FROM Item i")
-public class Item implements Serializable {
-    private static final long serialVersionUID = 1L;
+@Table(name = "spell")
+public class Spell implements Serializable {
+
+    private static final long serialVersionUID = 8601953332244028881L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -34,21 +40,20 @@ public class Item implements Serializable {
 
     private String nameEN;
 
-    private String quality;
-
-    private String sourceId;
-
-    private String sourceType;
-
-    // bi-directional many-to-many association to Spell
-    @ManyToMany(mappedBy = "items")
-    private List<Spell> spells;
+    // bi-directional many-to-many association to Item
+    @ManyToMany
+    @JoinTable(name = "itemhasspell", joinColumns = {
+            @JoinColumn(name = "idSpell")
+    }, inverseJoinColumns = {
+            @JoinColumn(name = "idItem")
+    })
+    private List<Item> items;
 
     // bi-directional many-to-one association to Mount
-    @OneToMany(mappedBy = "item")
+    @OneToMany(mappedBy = "spell")
     private List<Mount> mounts;
 
-    public Item() {
+    public Spell() {
     }
 
     public Long getId() {
@@ -91,36 +96,12 @@ public class Item implements Serializable {
         this.nameEN = nameEN;
     }
 
-    public String getQuality() {
-        return this.quality;
+    public List<Item> getItems() {
+        return this.items;
     }
 
-    public void setQuality(final String quality) {
-        this.quality = quality;
-    }
-
-    public String getSourceId() {
-        return this.sourceId;
-    }
-
-    public void setSourceId(final String sourceId) {
-        this.sourceId = sourceId;
-    }
-
-    public String getSourceType() {
-        return this.sourceType;
-    }
-
-    public void setSourceType(final String sourceType) {
-        this.sourceType = sourceType;
-    }
-
-    public List<Spell> getSpells() {
-        return this.spells;
-    }
-
-    public void setSpells(final List<Spell> spells) {
-        this.spells = spells;
+    public void setItems(final List<Item> items) {
+        this.items = items;
     }
 
     public List<Mount> getMounts() {
@@ -133,14 +114,14 @@ public class Item implements Serializable {
 
     public Mount addMount(final Mount mount) {
         getMounts().add(mount);
-        mount.setItem(this);
+        mount.setSpell(this);
 
         return mount;
     }
 
     public Mount removeMount(final Mount mount) {
         getMounts().remove(mount);
-        mount.setItem(null);
+        mount.setSpell(null);
 
         return mount;
     }

@@ -6,39 +6,68 @@ import java.util.logging.Logger;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import aka.jwowjpa.model.Item;
-import aka.jwowjpa.model.ItemController;
+import aka.jwowjpa.persistence.controllers.ItemController;
+import aka.jwowjpa.persistence.models.Item;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/testApplicationContext.xml" })
+@ContextConfiguration(locations = "classpath:application-test-context.xml")
 public class Item_Test {
 
-    @Autowired
-    private ItemController carDao;
     private final Logger logger = Logger.getLogger("myLog");
-    private Long id;
+
+    ItemController itemController;
 
     @Before
-    public void init() {
-//          carNumber = carDao.getCars().size();
-        this.id = 1L;
+    public void setUp() {
+        final ApplicationContext ctx = new ClassPathXmlApplicationContext(
+                "application-test-context.xml");
+
+        this.itemController = ctx.getBean(ItemController.class);
+    }
+
+    @Test
+    public void happyPathScenario() {
+        final Item item = new Item();
+        item.setName("MY ITEM NAME");
     }
 
     @Test
     public void listCarsTest() {
-        final List<Item> cars = this.carDao.getItems();
+//
+//
+//        final UserManager userManager = (UserManager) ctx.getBean("userManagerImpl");
+//
+//        List<User> list = userManager.findAllUsers();
+//        System.out.println("User count: " + list.size());
+//
+//        final User user = new User();
+//        user.setUsername("johndoe");
+//        user.setName("John Doe");
+//        userManager.insertUser(user);
+//        System.out.println("User inserted!");
+//
+//        list = userManager.findAllUsers();
+//        System.out.println("User count: " + list.size());
+        final List<Item> cars = this.itemController.getItems();
 //          logger.info("Cars: " + cars.size());
         Assert.assertNotNull(cars);
-        Assert.assertEquals(15, cars.size());
+
+        final List<Item> test = this.itemController.getItemByNameLike("Bo");
+        for (final Item item : test) {
+            System.err.println("[Item_Test] listCarsTest - " + item.getName());
+        }
+        final List<Item> test2 = this.itemController.getItemById(Long.valueOf(-1));
+        for (final Item item : test2) {
+            System.err.println("[Item_Test] listCarsTest - " + item.getName());
+        }
+
     }
 
     @Test
     public void getCarTest() {
-        final List<Item> car = this.carDao.getItemById(this.id);
+//        final List<Item> car = this.carDao.getItemById(this.id);
     }
 }

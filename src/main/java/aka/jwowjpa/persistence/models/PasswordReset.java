@@ -1,4 +1,4 @@
-package aka.jwowjpa.model;
+package aka.jwowjpa.persistence.models;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -6,20 +6,22 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.springframework.stereotype.Component;
 
 /**
  * The persistent class for the password_resets database table.
  *
  */
+@Component
 @Entity
 @Table(name = "password_resets")
-@NamedQuery(name = "PasswordReset.findAll", query = "SELECT p FROM PasswordReset p")
 public class PasswordReset implements Serializable {
-    private static final long serialVersionUID = 1L;
+
+    private static final long serialVersionUID = 2039237167156262962L;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at")
