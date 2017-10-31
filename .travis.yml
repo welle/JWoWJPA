@@ -1,9 +1,14 @@
 language: java
+install: true
 jdk:
   - oraclejdk8
 script: 
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install -Dmaven.javadoc.skip=true -B -V sonar:sonar 
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package -Dmaven.javadoc.skip=true -B -V sonar:sonar 
   - sonar-scanner
 addons:
   sonarcloud:
     organization: "welle-github" # the key of the org you chose at step #3
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+    - '$HOME/.sonar/cache'
