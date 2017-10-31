@@ -1,0 +1,5 @@
+language: java
+mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+addons:
+  sonarcloud:
+    organization: "welle-github" # the key of the org you chose at step #3
