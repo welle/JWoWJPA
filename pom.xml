@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>JWoWJPA</groupId>
 	<artifactId>JWoWJPA</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<properties>
 		<spring.version>5.0.0.RELEASE</spring.version>
 		<hibernate.version>5.2.11.Final</hibernate.version>
@@ -133,6 +133,14 @@
 
 	</dependencies>
 	<build>
+		<resources>
+			<resource>
+				<directory>${basedir}/src/main/resources</directory>
+				<includes>
+					<include>**/*.xml</include>
+				</includes>
+			</resource>
+		</resources>
 		<testResources>
 			<testResource>
 				<directory>${basedir}/src/test/resources</directory>

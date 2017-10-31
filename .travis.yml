@@ -11,3 +11,11 @@ cache:
   directories:
     - '$HOME/.m2/repository'
     - '$HOME/.sonar/cache'
+deploy:
+  provider: releases
+  user: $GITHUB_USER
+  password: $GITHUB_PASSWORD
+  file: /home/travis/build/welle/JWoWJPA/target/JWoWJPA-0.0.1.jar
+  skip_cleanup: true
+  on:
+    tags: true
