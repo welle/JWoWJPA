@@ -5,11 +5,17 @@ import java.util.List;
 import java.util.logging.Level;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Order;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.eclipse.jdt.annotation.NonNull;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import aka.jwowjpa.context.ApplicationContext;
 import aka.jwowjpa.persistence.models.Spell;
@@ -30,11 +36,16 @@ public class SpellController {
      *
      * @return List of spell
      */
+    @Transactional
     @NonNull
-    public List<aka.jwowjpa.persistence.models.Spell> getSpells() {
-        List<aka.jwowjpa.persistence.models.Spell> result = new ArrayList<>();
+    public List<@NonNull Spell> getSpells() {
+        List<@NonNull Spell> result = new ArrayList<>();
         try {
-            final javax.persistence.Query q = this.entityManager.createQuery("select c from Spell c");
+            final CriteriaBuilder criteriaBuilder = this.entityManager.getCriteriaBuilder();
+            final CriteriaQuery<Spell> criteriaQuery = criteriaBuilder.createQuery(Spell.class);
+            final Root<Spell> root = criteriaQuery.from(Spell.class);
+            criteriaQuery.select(root);
+            final TypedQuery<Spell> q = this.entityManager.createQuery(criteriaQuery);
             result = q.getResultList();
         } finally {
             this.entityManager.close();
@@ -48,11 +59,18 @@ public class SpellController {
      *
      * @return List of spell
      */
+    @Transactional
     @NonNull
-    public List<aka.jwowjpa.persistence.models.Spell> getLatestSpell() {
-        List<aka.jwowjpa.persistence.models.Spell> result = new ArrayList<>();
+    public List<@NonNull Spell> getLatestSpell() {
+        List<@NonNull Spell> result = new ArrayList<>();
         try {
-            final javax.persistence.Query q = this.entityManager.createQuery("select c from Spell c order by c.idWoW desc");
+            final CriteriaBuilder criteriaBuilder = this.entityManager.getCriteriaBuilder();
+            final CriteriaQuery<Spell> criteriaQuery = criteriaBuilder.createQuery(Spell.class);
+            final Root<Spell> root = criteriaQuery.from(Spell.class);
+            criteriaQuery.select(root);
+            final Order orderBy = criteriaBuilder.desc(root.get("idWoW"));
+            criteriaQuery.orderBy(orderBy);
+            final TypedQuery<Spell> q = this.entityManager.createQuery(criteriaQuery);
             q.setMaxResults(1);
             result = q.getResultList();
         } finally {
@@ -63,16 +81,23 @@ public class SpellController {
     }
 
     /**
-     * Get spell by id.
+     * Get spell by id WoW.
      *
+     * @param idWoW
      * @return List of spell
      */
+    @Transactional
     @NonNull
-    public List<aka.jwowjpa.persistence.models.Spell> getSpellById(final int id) {
-        List<aka.jwowjpa.persistence.models.Spell> result = new ArrayList<>();
+    public List<@NonNull Spell> getSpellById(final Long idWoW) {
+        List<@NonNull Spell> result = new ArrayList<>();
         try {
-            final javax.persistence.Query q = this.entityManager.createQuery("select c from Spell c Where idWoW = " + id);
-            q.setMaxResults(1);
+            final CriteriaBuilder criteriaBuilder = this.entityManager.getCriteriaBuilder();
+            final CriteriaQuery<Spell> criteriaQuery = criteriaBuilder.createQuery(Spell.class);
+            final Root<Spell> root = criteriaQuery.from(Spell.class);
+            criteriaQuery.select(root);
+            final Predicate idWoWEqual = criteriaBuilder.equal(root.get("idWoW"), idWoW);
+            criteriaQuery.where(idWoWEqual);
+            final TypedQuery<Spell> q = this.entityManager.createQuery(criteriaQuery);
             result = q.getResultList();
         } finally {
             this.entityManager.close();
@@ -87,15 +112,15 @@ public class SpellController {
      * @param spell
      * @return inserted spell
      */
+    @Transactional
     @NonNull
     public Spell insert(@NonNull final Spell spell) {
         try {
-            final EntityTransaction tx = this.entityManager.getTransaction();
-            tx.begin();
             this.entityManager.persist(spell);
-            tx.commit();
         } catch (final Exception e) {
             ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, "SpellController", "insert", e.getMessage(), e);
+        } finally {
+            this.entityManager.close();
         }
 
         return spell;
@@ -110,12 +135,11 @@ public class SpellController {
     @NonNull
     public Spell update(@NonNull final Spell spell) {
         try {
-            final EntityTransaction tx = this.entityManager.getTransaction();
-            tx.begin();
             this.entityManager.merge(spell);
-            tx.commit();
         } catch (final Exception e) {
             ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, "SpellController", "update", e.getMessage(), e);
+        } finally {
+            this.entityManager.close();
         }
 
         return spell;

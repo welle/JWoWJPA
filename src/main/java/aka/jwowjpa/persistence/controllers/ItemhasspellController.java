@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.logging.Level;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -14,6 +13,7 @@ import javax.persistence.criteria.Root;
 
 import org.eclipse.jdt.annotation.NonNull;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import aka.jwowjpa.context.ApplicationContext;
 import aka.jwowjpa.persistence.models.Itemhasspell;
@@ -34,9 +34,10 @@ public class ItemhasspellController {
      *
      * @return List of Itemhasspell
      */
+    @Transactional
     @NonNull
-    public List<Itemhasspell> getItemhasspells() {
-        List<Itemhasspell> result = new ArrayList<>();
+    public List<@NonNull Itemhasspell> getItemhasspells() {
+        List<@NonNull Itemhasspell> result = new ArrayList<>();
         try {
             final CriteriaBuilder criteriaBuilder = this.entityManager.getCriteriaBuilder();
             final CriteriaQuery<Itemhasspell> criteriaQuery = criteriaBuilder.createQuery(Itemhasspell.class);
@@ -57,15 +58,15 @@ public class ItemhasspellController {
      * @param itemhasspellPK
      * @return inserted itemhasspellPK
      */
+    @Transactional
     @NonNull
     public Itemhasspell insert(@NonNull final Itemhasspell itemhasspellPK) {
         try {
-            final EntityTransaction tx = this.entityManager.getTransaction();
-            tx.begin();
             this.entityManager.persist(itemhasspellPK);
-            tx.commit();
         } catch (final Exception e) {
             ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, "ItemhasspellController", "insert", e.getMessage(), e);
+        } finally {
+            this.entityManager.close();
         }
 
         return itemhasspellPK;
@@ -77,15 +78,15 @@ public class ItemhasspellController {
      * @param itemhasspellPK
      * @return update itemhasspellPK
      */
+    @Transactional
     @NonNull
     public Itemhasspell update(@NonNull final Itemhasspell itemhasspellPK) {
         try {
-            final EntityTransaction tx = this.entityManager.getTransaction();
-            tx.begin();
             this.entityManager.merge(itemhasspellPK);
-            tx.commit();
         } catch (final Exception e) {
             ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, "ItemhasspellController", "update", e.getMessage(), e);
+        } finally {
+            this.entityManager.close();
         }
 
         return itemhasspellPK;

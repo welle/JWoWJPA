@@ -5,11 +5,16 @@ import java.util.List;
 import java.util.logging.Level;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Order;
+import javax.persistence.criteria.Root;
 
 import org.eclipse.jdt.annotation.NonNull;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import aka.jwowjpa.context.ApplicationContext;
 import aka.jwowjpa.persistence.models.Mount;
@@ -30,11 +35,16 @@ public class MountController {
      *
      * @return List of mounts
      */
+    @Transactional
     @NonNull
-    public List<aka.jwowjpa.persistence.models.Mount> getMounts() {
-        List<aka.jwowjpa.persistence.models.Mount> result = new ArrayList<>();
+    public List<@NonNull Mount> getMounts() {
+        List<@NonNull Mount> result = new ArrayList<>();
         try {
-            final javax.persistence.Query q = this.entityManager.createQuery("select c from Mount c");
+            final CriteriaBuilder criteriaBuilder = this.entityManager.getCriteriaBuilder();
+            final CriteriaQuery<Mount> criteriaQuery = criteriaBuilder.createQuery(Mount.class);
+            final Root<Mount> root = criteriaQuery.from(Mount.class);
+            criteriaQuery.select(root);
+            final TypedQuery<Mount> q = this.entityManager.createQuery(criteriaQuery);
             result = q.getResultList();
         } finally {
             this.entityManager.close();
@@ -48,12 +58,18 @@ public class MountController {
      *
      * @return List of mount
      */
+    @Transactional
     @NonNull
-    public List<aka.jwowjpa.persistence.models.Mount> getLatestMount() {
-        List<aka.jwowjpa.persistence.models.Mount> result = new ArrayList<>();
+    public List<@NonNull Mount> getLatestMount() {
+        List<@NonNull Mount> result = new ArrayList<>();
         try {
-            final javax.persistence.Query q = this.entityManager.createQuery("select c from Mount c order by c.idCreature desc");
-            q.setMaxResults(1);
+            final CriteriaBuilder criteriaBuilder = this.entityManager.getCriteriaBuilder();
+            final CriteriaQuery<Mount> criteriaQuery = criteriaBuilder.createQuery(Mount.class);
+            final Root<Mount> root = criteriaQuery.from(Mount.class);
+            criteriaQuery.select(root);
+            final Order orderBy = criteriaBuilder.desc(root.get("idCreature"));
+            criteriaQuery.orderBy(orderBy);
+            final TypedQuery<Mount> q = this.entityManager.createQuery(criteriaQuery);
             result = q.getResultList();
         } finally {
             this.entityManager.close();
@@ -68,15 +84,15 @@ public class MountController {
      * @param mount
      * @return inserted mount
      */
+    @Transactional
     @NonNull
     public Mount insert(@NonNull final Mount mount) {
         try {
-            final EntityTransaction tx = this.entityManager.getTransaction();
-            tx.begin();
             this.entityManager.persist(mount);
-            tx.commit();
         } catch (final Exception e) {
             ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, "MountController", "insert", e.getMessage(), e);
+        } finally {
+            this.entityManager.close();
         }
 
         return mount;
@@ -88,15 +104,15 @@ public class MountController {
      * @param mount
      * @return update mount
      */
+    @Transactional
     @NonNull
     public Mount update(@NonNull final Mount mount) {
         try {
-            final EntityTransaction tx = this.entityManager.getTransaction();
-            tx.begin();
             this.entityManager.merge(mount);
-            tx.commit();
         } catch (final Exception e) {
             ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, "MountController", "update", e.getMessage(), e);
+        } finally {
+            this.entityManager.close();
         }
 
         return mount;

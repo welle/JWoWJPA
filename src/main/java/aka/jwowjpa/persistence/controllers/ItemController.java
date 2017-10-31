@@ -71,6 +71,7 @@ public class ItemController {
             final Order orderBy = criteriaBuilder.desc(root.get("idWoW"));
             criteriaQuery.orderBy(orderBy);
             final TypedQuery<Item> q = this.entityManager.createQuery(criteriaQuery);
+            q.setMaxResults(1);
             result = q.getResultList();
         } finally {
             this.entityManager.close();
@@ -114,7 +115,7 @@ public class ItemController {
      */
     @Transactional
     @NonNull
-    public List<@NonNull Item> getItemById(@NonNull final Long idWoW) {
+    public List<@NonNull Item> getItemByIdWoW(@NonNull final Long idWoW) {
         List<@NonNull Item> result = new ArrayList<>();
         try {
             final CriteriaBuilder criteriaBuilder = this.entityManager.getCriteriaBuilder();
