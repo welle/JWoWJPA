@@ -14,7 +14,7 @@ cache:
 deploy:
   provider: releases
   api_key:
-  	secure: $GITHUB_TOKEN
+  	secure: P4+iiJreDvXFMZofd6cVjbZNa7g+un3kYHATJM2CelW4Arbq+poLW/0z6z9eGdcdxFQa85NMthOhMKbK8C4j2RwUtpJvXBmoghZRDbsiRS1I80yTaO6/dHEPj66vroUEV6xzhPx6UvCu47KC0VqbA+i3PcCxF7k8v25z/mVS8F4lBR++UB1gq7h+l6Qf+FI77yZS7mrmwU/QwIGaBcflh4vD2SQuQfat7Nbo3BDiJ56n3gFgkUrDTTWYEGoxYDI5R6Fer6/A8o93g6ihW2m+OAfNWP6Fj6VulyDzITraV+wnpbQkH3KigY7LslT4XoFaHVXp+NnFV7p440bgNcc9YrjPHTSpUKjS4mnkkguGzhVcV6oHtv1p3kVYghoWgV5blftrBDL/XaD8tq/ECVEdy1YLF/1hT+7naaerV62cTjfOI0FSibcZqej83Lw6WuJ0c+lE+VfIyyWILqXiq7oDbXlSFD3tdvjFObNhVoKs82U02qxsa4Xa0Fe4Js8H6NHANvEhAnDeLeI9+0dBZmFGPWH+0ByMLUipHYbObxuAW/lbsSBMKQicFJ/pDTG6Rm6ALhhjZzBfsG+9GZ6UEMpPdITZl+x/DK31QUN9feSDunzjmaXSQDUFhX8vAD+rPMdjtlaeLYVkc+U4SRThxfajm/e51YlEq3Z527PpFkiOCS8=
   file: /home/travis/build/welle/JWoWJPA/target/JWoWJPA-0.0.1.jar
   skip_cleanup: true
   on:
