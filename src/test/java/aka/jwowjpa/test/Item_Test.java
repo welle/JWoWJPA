@@ -3,42 +3,46 @@ package aka.jwowjpa.test;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.annotation.Resource;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-
-import com.github.springtestdbunit.DbUnitTestExecutionListener;
-import com.github.springtestdbunit.annotation.DatabaseSetup;
+import org.springframework.transaction.annotation.Transactional;
 
 import aka.jwowjpa.persistence.controllers.ItemController;
 import aka.jwowjpa.persistence.models.Item;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:application-test-context.xml")
-@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class, DbUnitTestExecutionListener.class })
+@Transactional
 public class Item_Test {
 
     private final Logger logger = Logger.getLogger("myLog");
 
+    @Resource
     ItemController itemController;
 
     @Before
-    public void setUp() {
-        final ApplicationContext ctx = new ClassPathXmlApplicationContext("application-test-context.xml");
+    public void setUp() throws Exception {
+//        final ApplicationContext ctx = new ClassPathXmlApplicationContext("application-test-context.xml");
+//        this.itemController = ctx.getBean(ItemController.class);
 
-        this.itemController = ctx.getBean(ItemController.class);
     }
 
     @Test
-    @DatabaseSetup("/dataset/itemRepository.xml")
     public void happyPathScenario() {
+        final Item item2 = new Item();
+//        item2.setId(Long.valueOf(1));
+        item2.setName("YAHOU ?");
+        this.itemController.insert(item2);
+
         final List<Item> cars = this.itemController.getItems();
+        for (final Item item : cars) {
+            System.err.println("[Item_Test] happyPathScenario - " + item.getName());
+        }
     }
 
 //    @Test

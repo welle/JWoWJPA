@@ -11,7 +11,6 @@
 		<class>aka.jwowjpa.persistence.models.PasswordReset</class>
 		<class>aka.jwowjpa.persistence.models.Spell</class>
 		<class>aka.jwowjpa.persistence.models.User</class>
-		<class>aka.jwowjpa.persistence.models.ItemhasspellPK</class>
 		<class>aka.jwowjpa.persistence.models.Itemhasspell</class>
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect" />

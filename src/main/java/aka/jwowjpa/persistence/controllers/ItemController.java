@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.logging.Level;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -143,12 +142,11 @@ public class ItemController {
     @NonNull
     public Item insert(@NonNull final Item item) {
         try {
-            final EntityTransaction tx = this.entityManager.getTransaction();
-            tx.begin();
             this.entityManager.persist(item);
-            tx.commit();
         } catch (final Exception e) {
             ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, "ItemController", "insert", e.getMessage(), e);
+        } finally {
+            this.entityManager.close();
         }
 
         return item;
@@ -164,12 +162,11 @@ public class ItemController {
     @NonNull
     public Item update(@NonNull final Item item) {
         try {
-            final EntityTransaction tx = this.entityManager.getTransaction();
-            tx.begin();
             this.entityManager.merge(item);
-            tx.commit();
         } catch (final Exception e) {
             ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, "ItemController", "update", e.getMessage(), e);
+        } finally {
+            this.entityManager.close();
         }
 
         return item;

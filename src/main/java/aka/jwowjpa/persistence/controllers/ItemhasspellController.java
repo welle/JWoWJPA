@@ -7,12 +7,16 @@ import java.util.logging.Level;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import org.eclipse.jdt.annotation.NonNull;
 import org.springframework.stereotype.Repository;
 
 import aka.jwowjpa.context.ApplicationContext;
-import aka.jwowjpa.persistence.models.ItemhasspellPK;
+import aka.jwowjpa.persistence.models.Itemhasspell;
 
 /**
  * Itemhasspell controller.
@@ -31,10 +35,14 @@ public class ItemhasspellController {
      * @return List of Itemhasspell
      */
     @NonNull
-    public List<ItemhasspellPK> getItemhasspells() {
-        List<ItemhasspellPK> result = new ArrayList<>();
+    public List<Itemhasspell> getItemhasspells() {
+        List<Itemhasspell> result = new ArrayList<>();
         try {
-            final javax.persistence.Query q = this.entityManager.createQuery("select c from Itemhasspell c");
+            final CriteriaBuilder criteriaBuilder = this.entityManager.getCriteriaBuilder();
+            final CriteriaQuery<Itemhasspell> criteriaQuery = criteriaBuilder.createQuery(Itemhasspell.class);
+            final Root<Itemhasspell> root = criteriaQuery.from(Itemhasspell.class);
+            criteriaQuery.select(root);
+            final TypedQuery<Itemhasspell> q = this.entityManager.createQuery(criteriaQuery);
             result = q.getResultList();
         } finally {
             this.entityManager.close();
@@ -50,7 +58,7 @@ public class ItemhasspellController {
      * @return inserted itemhasspellPK
      */
     @NonNull
-    public ItemhasspellPK insert(@NonNull final ItemhasspellPK itemhasspellPK) {
+    public Itemhasspell insert(@NonNull final Itemhasspell itemhasspellPK) {
         try {
             final EntityTransaction tx = this.entityManager.getTransaction();
             tx.begin();
@@ -70,7 +78,7 @@ public class ItemhasspellController {
      * @return update itemhasspellPK
      */
     @NonNull
-    public ItemhasspellPK update(@NonNull final ItemhasspellPK itemhasspellPK) {
+    public Itemhasspell update(@NonNull final Itemhasspell itemhasspellPK) {
         try {
             final EntityTransaction tx = this.entityManager.getTransaction();
             tx.begin();

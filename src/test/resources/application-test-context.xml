@@ -11,21 +11,19 @@
 
 	<!-- <import resource="application-context.xml" /> -->
 
-	<context:component-scan base-package="aka.jwowjpa.persistence" />
+	<context:component-scan base-package="aka.jwowjpa.persistence.controllers" />
 	<tx:annotation-driven transaction-manager="transactionManager" />
 	
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="org.hsqldb.jdbcDriver" />
-		<property name="url" value="jdbc:hsqldb:mem:paging" />
-		<property name="username" value="sa" />
-		<property name="password" value="" />
+		<property name="driverClassName" value="org.h2.Driver" />
+		<property name="url" value="jdbc:h2:mem:myDb;DB_CLOSE_DELAY=-1" />
 	</bean>
 
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<property name="persistenceUnitName" value="springtestdbunit" />
+		<property name="persistenceUnitName" value="pagingDatabase" />
 		<property name="jpaDialect">
 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect"/>
 		</property>
