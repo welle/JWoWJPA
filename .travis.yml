@@ -6,6 +6,7 @@ jdk:
 script: 
   - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar
   - mkdir ./repository
+  - chmod +x /home/travis/.travis/upload-to-repo.sh
 addons:
   sonarcloud:
     organization: "welle-github" # the key of the org you chose at step #3
@@ -15,4 +16,4 @@ cache:
     - '$HOME/.sonar/cache'
 after_success:
   - mvn -Denv=dev-travis -DperformRelease=true clean deploy
-  - .travis/upload-to-repo.sh
+  - /home/travis/.travis/upload-to-repo.sh
