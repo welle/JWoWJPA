@@ -2,8 +2,25 @@
 
 ## Quick summary ##
 
-
 ## How to use it ##
+### Maven config ###
+Just add
+```<repository>
+	<id>welle-maven-repository</id>
+	<url>https://github.com/welle/maven-repository/raw/master/JWoWJPA/</url>
+</repository>```
+
+in your repositories.
+
+Then add 
+```<dependency>
+	<groupId>aka.jwowjpa</groupId>
+	<artifactId>JWoWJPA</artifactId>
+	<version>0.0.1</version>
+</dependency>```
+
+in your dependencies.
+
 ## Notes ##
 Need the eclipse-external-annotations-m2e-plugin: 
 
