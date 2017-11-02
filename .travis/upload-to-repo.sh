@@ -1,7 +1,7 @@
 # create a new directory that will contain out generated apk
   git config --global user.email "charlottewelle@yahoo.fr"
   git config --global user.name "Welle Charlotte" 
-  cd $HOME/.m2/repository
+  cd /home/travis/repository
   #add, commit and push files
   git add -f .
   git remote rm origin

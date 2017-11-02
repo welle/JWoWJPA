@@ -48,7 +48,7 @@
 				</property>
 			</activation>
 			<properties>
-				<github.maven.repository>file://$HOME/.m2/repository</github.maven.repository>
+				<github.maven.repository>file:///home/travis/repository</github.maven.repository>
 			</properties>
 		</profile>
 	</profiles>
