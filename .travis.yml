@@ -4,6 +4,7 @@ jdk:
   - oraclejdk8
 script: 
   - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar
+  - 
 addons:
   sonarcloud:
     organization: "welle-github" # the key of the org you chose at step #3
@@ -11,10 +12,6 @@ cache:
   directories:
     - '$HOME/.m2/repository'
     - '$HOME/.sonar/cache'
-deploy:
-  provider: releases
-  api_key: yP7CMxO2VumLeq8C6F7bmpJhSsevbk82PgPtQRCGdOrj2HrlM+UaIXH+QvJuQ/GqbsBbTaLk0TS8rk5pj7xf1I5EIXAI023zr1OTPknks1KmVllzaLW3bPQfmQsEscBtnmTx4Cvv4stIhZfuZ0xRjG9tMalY/Uf2BsPHHRu6gWk1/RDksUcjNO7692FlvPFFS3oC33PJcudhLpavV2bcEgmwJ4zBzqUcL4Mg+QTwh/c5pZW4n1dBzQu3979qk5YqaCOWOZm4r9a/9sDG5qh44y6roc4snIUszGdp5ZgQLSVPFr/E4B/Xiig+2Wqo6ZbC2yvh95O+UCfezDHdCClaGEIatJQkXuBksgJmq6wY1cNWTk928BD/ElWP0VcdQ8orQMMJPXx3E9x+f4yHgFara3d9iSMvgxRLG6YZQBwMkT3EVMnLpMyLVuRj9PHpwPx5HQuIBbStNprIu1qnrDQaFxw25uDf6pSPiAGsmOJOEyC6n3YC001Vh8yDHYh5dcybiOkT2Q7qBQLEI+Cm8x7tBoexhISqXqw1eRbdGPVbRslWdieEWwPieFt6xL8ROdMsuV20Lp0RDEorw+w2ulQEIRm7kNiDWchi3bIQ8I9+NC877bI1tWBHgGnhu1Lp0kLHNcEHyh5GiXruD8Z3Onv5bqecQ+TocjTlLXcgLRAPH+c=
-  file: JWoWJPA-0.0.1.jar
-  skip_cleanup: true
-  on:
-    tags: true
+after_success:
+  - mvn -Denv=dev-travis -DperformRelease=true clean deploy
+  - .travis/upload-to-repo.sh
