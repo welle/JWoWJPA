@@ -1,4 +1,4 @@
-# JWoWJPA [![Build Status](https://travis-ci.org/welle/JWoWJPA.svg?branch=master)](https://travis-ci.org/welle/JWoWJPA) [![Quality Gate](https://sonarcloud.io/api/badges/gate?key=JWoWJPA:JWoWJPA)](https://sonarcloud.io/dashboard/index/JWoWJPA:JWoWJPA)
+# JWoWJPA [![Build Status](https://travis-ci.org/welle/JWoWJPA.svg?branch=master)](https://travis-ci.org/welle/JWoWJPA) [![Quality Gate](https://sonarcloud.io/api/badges/gate?key=aka.jwowjpa:JWoWJPA)](https://sonarcloud.io/dashboard/index/aka.jwowjpa:JWoWJPA)
 
 ## Quick summary
 

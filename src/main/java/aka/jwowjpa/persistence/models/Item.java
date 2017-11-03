@@ -21,6 +21,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Entity
 @Table(name = "item")
+@SuppressWarnings("javadoc")
 public class Item implements Serializable {
 
     private static final long serialVersionUID = -3094292180961668413L;
@@ -53,6 +54,7 @@ public class Item implements Serializable {
     private List<Mount> mounts;
 
     public Item() {
+        // Nothing to do
     }
 
     public Long getId() {
@@ -136,17 +138,16 @@ public class Item implements Serializable {
     }
 
     public Mount addMount(final Mount mount) {
-        getMounts().add(mount);
+        this.mounts.add(mount);
         mount.setItem(this);
 
         return mount;
     }
 
     public Mount removeMount(final Mount mount) {
-        getMounts().remove(mount);
+        this.mounts.remove(mount);
         mount.setItem(null);
 
         return mount;
     }
-
 }

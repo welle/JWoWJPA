@@ -1,4 +1,4 @@
-package aka.jwowjpa.test;
+package aka.jwowjpa.test.controllers;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ import aka.jwowjpa.persistence.models.Item;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:application-test-context.xml")
 @Transactional
-public class Item_Test {
+public class ItemController_Test {
 
     @Resource
     private ItemController itemController;
@@ -99,7 +99,9 @@ public class Item_Test {
         item.setQuality("4");
         item = this.itemController.insert(item);
 
-        final Item reloadedItem = this.itemController.getItemById(item.getId());
+        final Long id = item.getId();
+        Assert.assertNotNull(id);
+        final Item reloadedItem = this.itemController.getItemById(id);
         Assert.assertNotNull(reloadedItem);
         Assert.assertEquals(item.getId(), reloadedItem.getId());
         Assert.assertEquals(item.getName(), reloadedItem.getName());
@@ -157,7 +159,9 @@ public class Item_Test {
         item.setQuality("1");
         item = this.itemController.update(item);
 
-        final Item reloadedItem = this.itemController.getItemById(item.getId());
+        final Long id = item.getId();
+        Assert.assertNotNull(id);
+        final Item reloadedItem = this.itemController.getItemById(id);
         Assert.assertNotNull(reloadedItem);
         Assert.assertEquals(item.getId(), reloadedItem.getId());
         Assert.assertEquals(item.getName(), reloadedItem.getName());
