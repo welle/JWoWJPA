@@ -46,10 +46,20 @@ public class Item_Test {
     }
 
     /**
+     * Test getLatestItem method.
+     */
+    @Test
+    public void Test_getLatestItem() {
+        final Item item = this.itemController.getLatestItem();
+        Assert.assertNotNull(item);
+        Assert.assertEquals(Long.valueOf(9), item.getIdWoW());
+    }
+
+    /**
      * Test getItemByIdWoW method.
      */
     @Test
-    public void Test_getItemById() {
+    public void Test_getItemByIdWoW() {
         final Long idWoW = Long.valueOf(5);
         final List<@NonNull Item> itemList = this.itemController.getItemByIdWoW(idWoW);
         Assert.assertNotNull(itemList);
@@ -60,5 +70,98 @@ public class Item_Test {
             Assert.assertEquals("ItemEN " + idWoW, item.getNameEN());
             Assert.assertEquals("" + (idWoW.intValue() + 2), item.getQuality());
         }
+    }
+
+    /**
+     * Test insert method.
+     */
+    @Test
+    public void Test_insert() {
+        Item item = new Item();
+        item.setName("Item inserted");
+        item.setNameEN("Item EN name");
+        item.setIdWoW(Long.valueOf(15));
+        item.setQuality("4");
+        item = this.itemController.insert(item);
+
+        Assert.assertNotNull(item);
+    }
+
+    /**
+     * Test getItemById method.
+     */
+    @Test
+    public void Test_getItemById() {
+        Item item = new Item();
+        item.setName("Item inserted");
+        item.setNameEN("Item EN name");
+        item.setIdWoW(Long.valueOf(15));
+        item.setQuality("4");
+        item = this.itemController.insert(item);
+
+        final Item reloadedItem = this.itemController.getItemById(item.getId());
+        Assert.assertNotNull(reloadedItem);
+        Assert.assertEquals(item.getId(), reloadedItem.getId());
+        Assert.assertEquals(item.getName(), reloadedItem.getName());
+        Assert.assertEquals(item.getNameEN(), reloadedItem.getNameEN());
+        Assert.assertEquals(item.getQuality(), reloadedItem.getQuality());
+    }
+
+    /**
+     * Test getItems method.
+     */
+    @Test
+    public void Test_getItems() {
+        final List<@NonNull Item> totalItemList = this.itemController.getItems();
+        Assert.assertNotNull(totalItemList);
+        Assert.assertEquals(10, totalItemList.size());
+    }
+
+    /**
+     * Test getItemByNameLike method.
+     */
+    @Test
+    public void Test_getItemByNameLike() {
+        Item item = new Item();
+        item.setName("inserted Item");
+        item.setNameEN("inserted ItemEN");
+        item.setIdWoW(Long.valueOf(15));
+        item.setQuality("4");
+        item = this.itemController.insert(item);
+
+        final List<@NonNull Item> totalItemList = this.itemController.getItems();
+        final List<@NonNull Item> itemList = this.itemController.getItemByNameLike("Item");
+        Assert.assertNotNull(itemList);
+        Assert.assertEquals(10, itemList.size());
+        Assert.assertNotEquals(totalItemList.size(), itemList.size());
+        for (final Item currentItem : itemList) {
+            Assert.assertTrue(currentItem.getName().startsWith("Item"));
+        }
+    }
+
+    /**
+     * Test update method.
+     */
+    @Test
+    public void Test_update() {
+        Item item = new Item();
+        item.setName("Item inserted");
+        item.setNameEN("Item EN name");
+        item.setIdWoW(Long.valueOf(15));
+        item.setQuality("4");
+        item = this.itemController.insert(item);
+
+        item.setName("Item inserted updated");
+        item.setNameEN("Item EN name updated");
+        item.setIdWoW(Long.valueOf(20));
+        item.setQuality("1");
+        item = this.itemController.update(item);
+
+        final Item reloadedItem = this.itemController.getItemById(item.getId());
+        Assert.assertNotNull(reloadedItem);
+        Assert.assertEquals(item.getId(), reloadedItem.getId());
+        Assert.assertEquals(item.getName(), reloadedItem.getName());
+        Assert.assertEquals(item.getNameEN(), reloadedItem.getNameEN());
+        Assert.assertEquals(item.getQuality(), reloadedItem.getQuality());
     }
 }

@@ -14,6 +14,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.eclipse.jdt.annotation.NonNull;
+import org.eclipse.jdt.annotation.Nullable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,9 +61,9 @@ public class ItemController {
      * @return List of item
      */
     @Transactional
-    @NonNull
-    public List<@NonNull Item> getLatestItem() {
-        List<@NonNull Item> result = new ArrayList<>();
+    @Nullable
+    public Item getLatestItem() {
+        Item result = null;
         try {
             final CriteriaBuilder criteriaBuilder = this.entityManager.getCriteriaBuilder();
             final CriteriaQuery<Item> criteriaQuery = criteriaBuilder.createQuery(Item.class);
@@ -72,7 +73,7 @@ public class ItemController {
             criteriaQuery.orderBy(orderBy);
             final TypedQuery<Item> q = this.entityManager.createQuery(criteriaQuery);
             q.setMaxResults(1);
-            result = q.getResultList();
+            result = q.getSingleResult();
         } finally {
             this.entityManager.close();
         }
@@ -126,6 +127,32 @@ public class ItemController {
             criteriaQuery.where(idWoWEqual);
             final TypedQuery<Item> q = this.entityManager.createQuery(criteriaQuery);
             result = q.getResultList();
+        } finally {
+            this.entityManager.close();
+        }
+
+        return result;
+    }
+
+    /**
+     * Get item by the id.
+     *
+     * @param id
+     * @return List of item
+     */
+    @Transactional
+    @Nullable
+    public Item getItemById(@NonNull final Long id) {
+        Item result = null;
+        try {
+            final CriteriaBuilder criteriaBuilder = this.entityManager.getCriteriaBuilder();
+            final CriteriaQuery<Item> criteriaQuery = criteriaBuilder.createQuery(Item.class);
+            final Root<Item> root = criteriaQuery.from(Item.class);
+            criteriaQuery.select(root);
+            final Predicate idEqual = criteriaBuilder.equal(root.get("id"), id);
+            criteriaQuery.where(idEqual);
+            final TypedQuery<Item> q = this.entityManager.createQuery(criteriaQuery);
+            result = q.getSingleResult();
         } finally {
             this.entityManager.close();
         }
