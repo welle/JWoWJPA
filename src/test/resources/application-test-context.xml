@@ -11,8 +11,8 @@
 
 	<!-- <import resource="application-context.xml" /> -->
 
+	<tx:annotation-driven />
 	<context:component-scan base-package="aka.jwowjpa.persistence.controllers" />
-	<tx:annotation-driven transaction-manager="transactionManager" />
 	
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
