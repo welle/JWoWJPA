@@ -31,6 +31,7 @@ public class Item implements Serializable {
     @Column(insertable = false, updatable = false)
     private Long id;
 
+    @Column(columnDefinition = "LONGBLOB")
     private byte[] icon;
 
     private Long idWoW;
