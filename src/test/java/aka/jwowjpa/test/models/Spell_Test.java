@@ -15,7 +15,7 @@ import aka.jwowjpa.persistence.models.Spell;
 import aka.jwowjpa.test.TestHelper;
 
 /**
- * Integration tests for SpellController.
+ * Integration tests for Spell.
  *
  * @author charlottew
  */
@@ -26,52 +26,52 @@ public class Spell_Test {
 
     @Test
     public void Test_Id() {
-        final Spell item = new Spell();
+        final Spell spell = new Spell();
 
         final Long id = Long.valueOf(1);
-        item.setId(id);
+        spell.setId(id);
 
-        Assert.assertEquals(id, item.getId());
+        Assert.assertEquals(id, spell.getId());
     }
 
     @Test
     public void Test_Icon() {
-        final Spell item = new Spell();
+        final Spell spell = new Spell();
 
         final byte[] icon = TestHelper.readBytesFromFile("imgtest.jpg");
-        item.setIcon(icon);
+        spell.setIcon(icon);
 
-        Assert.assertEquals(icon, item.getIcon());
+        Assert.assertEquals(icon, spell.getIcon());
     }
 
     @Test
     public void Test_IdWoW() {
-        final Spell item = new Spell();
+        final Spell spell = new Spell();
 
         final Long idWoW = Long.valueOf(1);
-        item.setIdWoW(idWoW);
+        spell.setIdWoW(idWoW);
 
-        Assert.assertEquals(idWoW, item.getIdWoW());
+        Assert.assertEquals(idWoW, spell.getIdWoW());
     }
 
     @Test
     public void Test_Name() {
-        final Spell item = new Spell();
+        final Spell spell = new Spell();
 
         final String name = "Name";
-        item.setName(name);
+        spell.setName(name);
 
-        Assert.assertEquals(name, item.getName());
+        Assert.assertEquals(name, spell.getName());
     }
 
     @Test
     public void Test_NameEN() {
-        final Spell item = new Spell();
+        final Spell spell = new Spell();
 
         final String nameEN = "NameEN";
-        item.setNameEN(nameEN);
+        spell.setNameEN(nameEN);
 
-        Assert.assertEquals(nameEN, item.getNameEN());
+        Assert.assertEquals(nameEN, spell.getNameEN());
     }
 
     @Test
@@ -92,16 +92,16 @@ public class Spell_Test {
         final List<Mount> list = new ArrayList<>();
         list.add(mount);
 
-        final Spell item = new Spell();
-        item.setMounts(list);
+        final Spell spell = new Spell();
+        spell.setMounts(list);
 
-        Assert.assertEquals(1, item.getMounts().size());
+        Assert.assertEquals(1, spell.getMounts().size());
 
         final Mount mount2 = new Mount();
-        item.addMount(mount2);
-        Assert.assertEquals(2, item.getMounts().size());
+        spell.addMount(mount2);
+        Assert.assertEquals(2, spell.getMounts().size());
 
-        item.removeMount(mount);
-        Assert.assertEquals(1, item.getMounts().size());
+        spell.removeMount(mount);
+        Assert.assertEquals(1, spell.getMounts().size());
     }
 }

@@ -12,13 +12,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.springframework.stereotype.Component;
-
 /**
  * The persistent class for the item database table.
  *
  */
-@Component
 @Entity
 @Table(name = "item")
 @SuppressWarnings("javadoc")

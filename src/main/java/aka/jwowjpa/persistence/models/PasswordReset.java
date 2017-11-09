@@ -10,13 +10,10 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.springframework.stereotype.Component;
-
 /**
  * The persistent class for the password_resets database table.
  *
  */
-@Component
 @Entity
 @Table(name = "password_resets")
 public class PasswordReset implements Serializable {

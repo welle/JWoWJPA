@@ -14,13 +14,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.springframework.stereotype.Component;
-
 /**
  * The persistent class for the spell database table.
  *
  */
-@Component
 @Entity
 @Table(name = "spell")
 public class Spell implements Serializable {

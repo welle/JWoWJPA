@@ -138,7 +138,7 @@ public class ItemController {
      * Get item by the id.
      *
      * @param id
-     * @return List of item
+     * @return item
      */
     @Transactional
     @Nullable

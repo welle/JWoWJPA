@@ -18,7 +18,6 @@ import org.springframework.stereotype.Component;
  * The persistent class for the users database table.
  *
  */
-@Component
 @Entity
 @Table(name = "users")
 public class User implements Serializable {

@@ -85,7 +85,7 @@ public class SpellController {
      * Get spell by id.
      *
      * @param id
-     * @return List of spell
+     * @return spell
      */
     @Transactional
     @Nullable

@@ -7,13 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.springframework.stereotype.Component;
-
 /**
  * The persistent class for the itemhasspell database table.
  *
  */
-@Component
 @Entity
 @Table(name = "itemhasspell")
 public class Itemhasspell implements Serializable {

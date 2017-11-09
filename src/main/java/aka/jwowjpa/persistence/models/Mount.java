@@ -11,13 +11,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.springframework.stereotype.Component;
-
 /**
  * The persistent class for the mount database table.
  *
  */
-@Component
 @Entity
 @Table(name = "mount")
 public class Mount implements Serializable {
@@ -32,7 +29,7 @@ public class Mount implements Serializable {
     @Column(columnDefinition = "LONGBLOB")
     private byte[] icon;
 
-    private long idCreature;
+    private Long idCreature;
 
     private Boolean isAquatic;
 
@@ -77,11 +74,11 @@ public class Mount implements Serializable {
         this.icon = icon;
     }
 
-    public long getIdCreature() {
+    public Long getIdCreature() {
         return this.idCreature;
     }
 
-    public void setIdCreature(final long idCreature) {
+    public void setIdCreature(final Long idCreature) {
         this.idCreature = idCreature;
     }
 
