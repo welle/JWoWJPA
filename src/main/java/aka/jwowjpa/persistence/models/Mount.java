@@ -25,7 +25,7 @@ public class Mount implements Serializable {
     private static final long serialVersionUID = -3926814206361328989L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(insertable = false, updatable = false)
     private Long id;
 

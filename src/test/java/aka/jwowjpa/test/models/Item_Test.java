@@ -2,7 +2,6 @@ package aka.jwowjpa.test.models;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -13,6 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import aka.jwowjpa.persistence.models.Item;
 import aka.jwowjpa.persistence.models.Mount;
 import aka.jwowjpa.persistence.models.Spell;
+import aka.jwowjpa.test.TestHelper;
 
 /**
  * Integration tests for ItemController.
@@ -38,9 +38,7 @@ public class Item_Test {
     public void Test_Icon() {
         final Item item = new Item();
 
-        final Random random = new Random();
-        final byte[] icon = new byte[30];
-        random.nextBytes(icon);
+        final byte[] icon = TestHelper.readBytesFromFile("imgtest.jpg");
         item.setIcon(icon);
 
         Assert.assertEquals(icon, item.getIcon());

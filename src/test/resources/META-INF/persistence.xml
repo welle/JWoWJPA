@@ -18,5 +18,20 @@
 			<property name="hibernate.cache.provider_class" value="org.hibernate.cache.HashtableCacheProvider" />
 		</properties>
 	</persistence-unit>
+	
+	<persistence-unit name="jwowtest" transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+		<class>aka.jwowjpa.persistence.models.Item</class>
+		<class>aka.jwowjpa.persistence.models.Mount</class>
+		<class>aka.jwowjpa.persistence.models.PasswordReset</class>
+		<class>aka.jwowjpa.persistence.models.Spell</class>
+		<class>aka.jwowjpa.persistence.models.User</class>
+		<class>aka.jwowjpa.persistence.models.Itemhasspell</class>
+		<properties>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect" />
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.cache.provider_class" value="org.hibernate.cache.HashtableCacheProvider" />
+		</properties>
+	</persistence-unit>
 
 </persistence>

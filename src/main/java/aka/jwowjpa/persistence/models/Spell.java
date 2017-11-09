@@ -28,7 +28,7 @@ public class Spell implements Serializable {
     private static final long serialVersionUID = 8601953332244028881L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(insertable = false, updatable = false)
     private Long id;
 

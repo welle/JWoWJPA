@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import aka.jwowjpa.persistence.controllers.ItemController;
 import aka.jwowjpa.persistence.models.Item;
+import aka.jwowjpa.test.TestHelper;
 
 /**
  * Integration tests for ItemController.
@@ -29,6 +30,8 @@ public class ItemController_Test {
     @Resource
     private ItemController itemController;
 
+    private final byte[] icon = TestHelper.readBytesFromFile("imgtest.jpg");
+
     /**
      * Setup the test.
      */
@@ -41,6 +44,7 @@ public class ItemController_Test {
             item.setNameEN("ItemEN " + i);
             item.setIdWoW(Long.valueOf(i));
             item.setQuality("" + (i + 2));
+            item.setIcon(this.icon);
             this.itemController.insert(item);
         }
     }
@@ -66,6 +70,8 @@ public class ItemController_Test {
         Assert.assertEquals(1, itemList.size());
         for (final Item item : itemList) {
             Assert.assertEquals(idWoW, item.getIdWoW());
+            Assert.assertEquals(this.icon, item.getIcon());
+            Assert.assertNotNull(item.getIcon());
             Assert.assertEquals("Item " + idWoW, item.getName());
             Assert.assertEquals("ItemEN " + idWoW, item.getNameEN());
             Assert.assertEquals("" + (idWoW.intValue() + 2), item.getQuality());
@@ -82,6 +88,7 @@ public class ItemController_Test {
         item.setNameEN("Item EN name");
         item.setIdWoW(Long.valueOf(15));
         item.setQuality("4");
+        item.setIcon(this.icon);
         item = this.itemController.insert(item);
 
         Assert.assertNotNull(item);
@@ -97,6 +104,7 @@ public class ItemController_Test {
         item.setNameEN("Item EN name");
         item.setIdWoW(Long.valueOf(15));
         item.setQuality("4");
+        item.setIcon(this.icon);
         item = this.itemController.insert(item);
 
         final Long id = item.getId();
@@ -107,6 +115,8 @@ public class ItemController_Test {
         Assert.assertEquals(item.getName(), reloadedItem.getName());
         Assert.assertEquals(item.getNameEN(), reloadedItem.getNameEN());
         Assert.assertEquals(item.getQuality(), reloadedItem.getQuality());
+        Assert.assertEquals(this.icon, item.getIcon());
+        Assert.assertNotNull(item.getIcon());
     }
 
     /**
@@ -129,6 +139,7 @@ public class ItemController_Test {
         item.setNameEN("inserted ItemEN");
         item.setIdWoW(Long.valueOf(15));
         item.setQuality("4");
+        item.setIcon(this.icon);
         item = this.itemController.insert(item);
 
         final List<@NonNull Item> totalItemList = this.itemController.getItems();
@@ -138,6 +149,8 @@ public class ItemController_Test {
         Assert.assertNotEquals(totalItemList.size(), itemList.size());
         for (final Item currentItem : itemList) {
             Assert.assertTrue(currentItem.getName().startsWith("Item"));
+            Assert.assertEquals(this.icon, item.getIcon());
+            Assert.assertNotNull(currentItem.getIcon());
         }
     }
 
@@ -151,6 +164,7 @@ public class ItemController_Test {
         item.setNameEN("Item EN name");
         item.setIdWoW(Long.valueOf(15));
         item.setQuality("4");
+        item.setIcon(this.icon);
         item = this.itemController.insert(item);
 
         item.setName("Item inserted updated");
@@ -167,5 +181,7 @@ public class ItemController_Test {
         Assert.assertEquals(item.getName(), reloadedItem.getName());
         Assert.assertEquals(item.getNameEN(), reloadedItem.getNameEN());
         Assert.assertEquals(item.getQuality(), reloadedItem.getQuality());
+        Assert.assertEquals(item.getIcon(), reloadedItem.getIcon());
+        Assert.assertNotNull(reloadedItem.getIcon());
     }
 }

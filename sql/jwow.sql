@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS `mount` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `idItem` INT(11) NULL DEFAULT NULL,
   `idSpell` INT(11) NULL DEFAULT NULL,
-  `idCreature` INT(11) NOT NULL COMMENT 'creatureId dans l\'API battle net',
+  `idCreature` INT(11) NOT NULL COMMENT 'creatureId dans l API battle net',
   `name` VARCHAR(255) NOT NULL,
   `nameEN` VARCHAR(255) NULL DEFAULT NULL,
   `quality` VARCHAR(45) NULL DEFAULT NULL,
