@@ -6,6 +6,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import aka.jwowjpa.persistence.models.Item;
 import aka.jwowjpa.persistence.models.Mount;
 import aka.jwowjpa.persistence.models.Spell;
 import aka.jwowjpa.test.TestHelper;
@@ -88,6 +89,16 @@ public class Mount_Test {
         mount.setIsGround(isGround);
 
         Assert.assertEquals(isGround, mount.getIsGround());
+    }
+
+    @Test
+    public void Test_Item() {
+        final Mount mount = new Mount();
+
+        final Item item = new Item();
+        mount.setItem(item);
+
+        Assert.assertEquals(item, mount.getItem());
     }
 
     @Test

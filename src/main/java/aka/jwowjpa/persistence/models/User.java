@@ -12,8 +12,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.springframework.stereotype.Component;
-
 /**
  * The persistent class for the users database table.
  *
@@ -31,21 +29,20 @@ public class User implements Serializable {
 
     private String code;
 
+    @Column(insertable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_at")
     private Date createdAt;
 
     private String email;
 
     private String name;
 
-    private String password;
+    private String hashPassword;
 
-    @Column(name = "remember_token")
     private String rememberToken;
 
+    @Column(insertable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "updated_at")
     private Date updatedAt;
 
     public User() {
@@ -91,12 +88,12 @@ public class User implements Serializable {
         this.name = name;
     }
 
-    public String getPassword() {
-        return this.password;
+    public String getHashPassword() {
+        return this.hashPassword;
     }
 
-    public void setPassword(final String password) {
-        this.password = password;
+    public void setHashPassword(final String hashPassword) {
+        this.hashPassword = hashPassword;
     }
 
     public String getRememberToken() {
