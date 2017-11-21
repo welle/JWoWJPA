@@ -119,7 +119,7 @@ public class SpellController_Test {
      */
     @Test
     public void Test_getItems() {
-        final List<@NonNull Spell> totalSpellList = this.spellController.getSpells();
+        final List<@NonNull Spell> totalSpellList = this.spellController.getAll();
         Assert.assertNotNull(totalSpellList);
         Assert.assertEquals(10, totalSpellList.size());
     }
@@ -136,7 +136,7 @@ public class SpellController_Test {
         spell.setIcon(this.icon);
         spell = this.spellController.insert(spell);
 
-        final List<@NonNull Spell> totalSpellList = this.spellController.getSpells();
+        final List<@NonNull Spell> totalSpellList = this.spellController.getAll();
         final List<@NonNull Spell> spellList = this.spellController.getSpellByNameLike("Spell");
         Assert.assertNotNull(spellList);
         Assert.assertEquals(10, spellList.size());
@@ -163,7 +163,7 @@ public class SpellController_Test {
         spell.setName("Spell inserted updated");
         spell.setNameEN("Spell EN name updated");
         spell.setIdWoW(Long.valueOf(20));
-        spell = this.spellController.update(spell);
+        this.spellController.update(spell);
 
         final Long id = spell.getId();
         Assert.assertNotNull(id);

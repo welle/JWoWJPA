@@ -124,7 +124,7 @@ public class ItemController_Test {
      */
     @Test
     public void Test_getItems() {
-        final List<@NonNull Item> totalItemList = this.itemController.getItems();
+        final List<@NonNull Item> totalItemList = this.itemController.getAll();
         Assert.assertNotNull(totalItemList);
         Assert.assertEquals(10, totalItemList.size());
     }
@@ -142,7 +142,7 @@ public class ItemController_Test {
         item.setIcon(this.icon);
         item = this.itemController.insert(item);
 
-        final List<@NonNull Item> totalItemList = this.itemController.getItems();
+        final List<@NonNull Item> totalItemList = this.itemController.getAll();
         final List<@NonNull Item> itemList = this.itemController.getItemByNameLike("Item");
         Assert.assertNotNull(itemList);
         Assert.assertEquals(10, itemList.size());
@@ -171,7 +171,7 @@ public class ItemController_Test {
         item.setNameEN("Item EN name updated");
         item.setIdWoW(Long.valueOf(20));
         item.setQuality("1");
-        item = this.itemController.update(item);
+        this.itemController.update(item);
 
         final Long id = item.getId();
         Assert.assertNotNull(id);

@@ -1,7 +1,5 @@
 package aka.jwowjpa.persistence.controllers;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -23,9 +21,6 @@ import aka.jwowjpa.persistence.models.User;
 @Repository
 public class UserController extends AbstractController<User> {
 
-    @PersistenceContext
-    private EntityManager entityManager;
-
     /**
      * Constructor.
      */
@@ -44,16 +39,16 @@ public class UserController extends AbstractController<User> {
     public User getUserById(@NonNull final Long id) {
         User result = null;
         try {
-            final CriteriaBuilder criteriaBuilder = this.entityManager.getCriteriaBuilder();
+            final CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
             final CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
             final Root<User> root = criteriaQuery.from(User.class);
             criteriaQuery.select(root);
             final Predicate idEqual = criteriaBuilder.equal(root.get("id"), id);
             criteriaQuery.where(idEqual);
-            final TypedQuery<User> q = this.entityManager.createQuery(criteriaQuery);
+            final TypedQuery<User> q = getEntityManager().createQuery(criteriaQuery);
             result = q.getSingleResult();
         } finally {
-            this.entityManager.close();
+            getEntityManager().close();
         }
 
         return result;
@@ -70,17 +65,17 @@ public class UserController extends AbstractController<User> {
     public User getUserByEmail(@NonNull final String email) {
         User result = null;
         try {
-            final CriteriaBuilder criteriaBuilder = this.entityManager.getCriteriaBuilder();
+            final CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
             final CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
             final Root<User> root = criteriaQuery.from(User.class);
             criteriaQuery.select(root);
             final Predicate idEqual = criteriaBuilder.equal(root.get("email"), email);
             criteriaQuery.where(idEqual);
-            final TypedQuery<User> q = this.entityManager.createQuery(criteriaQuery);
+            final TypedQuery<User> q = getEntityManager().createQuery(criteriaQuery);
             q.setMaxResults(1);
             result = q.getSingleResult();
         } finally {
-            this.entityManager.close();
+            getEntityManager().close();
         }
 
         return result;

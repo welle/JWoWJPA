@@ -12,7 +12,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import org.eclipse.jdt.annotation.NonNull;
-import org.eclipse.persistence.exceptions.EntityManagerSetupException;
 import org.springframework.transaction.annotation.Transactional;
 
 import aka.jwowjpa.context.ApplicationContext;
@@ -44,13 +43,13 @@ public class AbstractController<T> {
      * Get the entity manager.
      *
      * @return the entityManager
-     * @throws EntityManagerSetupException if EntityManager is null
+     * @throws IllegalStateException if EntityManager is null
      */
     @NonNull
-    public EntityManager getEntityManager() throws EntityManagerSetupException {
+    public EntityManager getEntityManager() throws IllegalStateException {
         final EntityManager result = this.entityManager;
         if (result == null) {
-            throw new EntityManagerSetupException();
+            throw new IllegalStateException();
         }
 
         return result;
@@ -80,74 +79,53 @@ public class AbstractController<T> {
     }
 
     /**
-     * Insert new user.
+     * Insert new item.
      *
-     * @param user
-     * @return inserted user
+     * @param item
+     * @return inserted item
      */
     @Transactional
     @NonNull
-    public T insert(@NonNull final T user) {
+    public T insert(@NonNull final T item) {
         try {
-            this.entityManager.persist(user);
-            this.entityManager.refresh(user);
+            this.entityManager.persist(item);
+            this.entityManager.refresh(item);
         } catch (final Exception e) {
-            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, "UserController", "insert", e.getMessage(), e);
+            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, "AbstractController", "insert", e.getMessage(), e);
         } finally {
             this.entityManager.close();
         }
 
-        return user;
+        return item;
     }
 
     /**
-     * Update user.
+     * Update item.
      *
-     * @param user
+     * @param item
      */
     @Transactional
-    public void update(@NonNull final T user) {
+    public void update(@NonNull final T item) {
         try {
-            this.entityManager.merge(user);
+            this.entityManager.merge(item);
         } catch (final Exception e) {
-            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, "UserController", "update", e.getMessage(), e);
+            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, "AbstractController", "update", e.getMessage(), e);
         } finally {
             this.entityManager.close();
         }
     }
 
     /**
-     * Update user.
+     * Delete item.
      *
-     * @param user
-     * @return updated user
+     * @param item
      */
     @Transactional
-    @NonNull
-    public T updateAndRefresh(@NonNull final T user) {
+    public void delete(@NonNull final T item) {
         try {
-            this.entityManager.merge(user);
-            this.entityManager.refresh(user);
+            this.entityManager.remove(item);
         } catch (final Exception e) {
-            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, "UserController", "update", e.getMessage(), e);
-        } finally {
-            this.entityManager.close();
-        }
-
-        return user;
-    }
-
-    /**
-     * Delete user.
-     *
-     * @param user
-     */
-    @Transactional
-    public void delete(@NonNull final T user) {
-        try {
-            this.entityManager.remove(user);
-        } catch (final Exception e) {
-            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, "UserController", "delete", e.getMessage(), e);
+            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, "AbstractController", "delete", e.getMessage(), e);
         } finally {
             this.entityManager.close();
         }

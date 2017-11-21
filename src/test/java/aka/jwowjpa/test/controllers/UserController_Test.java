@@ -160,48 +160,6 @@ public class UserController_Test {
         Assert.assertEquals(user.getName(), reloadedUser.getName());
         Assert.assertEquals(user.getEmail(), reloadedUser.getEmail());
         Assert.assertEquals(createdDate, reloadedUser.getCreatedAt());
-        System.err.println("[UserController_Test] Test_update - updatedDate " + updatedDate);
-        System.err.println("[UserController_Test] Test_update - user.getUpdatedAt() " + user.getUpdatedAt());
-        System.err.println("[UserController_Test] Test_update - reloadedUser.getUpdatedAt() " + reloadedUser.getUpdatedAt());
-        Assert.assertNotEquals(updatedDate, reloadedUser.getUpdatedAt());
-        Assert.assertTrue(updatedDate.before(reloadedUser.getUpdatedAt()));
-    }
-
-    /**
-     * Test update method.
-     *
-     * @throws InterruptedException
-     */
-    @Test
-    public void Test_updateAndRefresh() throws InterruptedException {
-        User user = new User();
-        user.setName("User inserted ");
-        user.setEmail("User Email");
-        user.setHashPassword("0ae29b3ee870d58005182d34b72f3c9b1afb8c4c6102a76d46ffb53557bbf5cca30873a95fecbcecc7a1aaceb18bdad11c3ecd291bf86484849dd7d26f319d68");
-        user = this.userController.insert(user);
-
-        final Date createdDate = user.getCreatedAt();
-        Assert.assertNotNull(createdDate);
-        final Date updatedDate = user.getUpdatedAt();
-        Assert.assertNotNull(updatedDate);
-
-        Thread.sleep(2000);
-
-        user.setName("User inserted updated");
-        user.setEmail("User Email updated");
-        user = this.userController.updateAndRefresh(user);
-
-        final Long id = user.getId();
-        Assert.assertNotNull(id);
-        final User reloadedUser = this.userController.getUserById(id);
-        Assert.assertNotNull(reloadedUser);
-        Assert.assertEquals(user.getId(), reloadedUser.getId());
-        Assert.assertEquals(user.getName(), reloadedUser.getName());
-        Assert.assertEquals(user.getEmail(), reloadedUser.getEmail());
-        Assert.assertEquals(createdDate, reloadedUser.getCreatedAt());
-        System.err.println("[UserController_Test] Test_update - updatedDate " + updatedDate);
-        System.err.println("[UserController_Test] Test_update - user.getUpdatedAt() " + user.getUpdatedAt());
-        System.err.println("[UserController_Test] Test_update - reloadedUser.getUpdatedAt() " + reloadedUser.getUpdatedAt());
         Assert.assertNotEquals(updatedDate, reloadedUser.getUpdatedAt());
         Assert.assertTrue(updatedDate.before(reloadedUser.getUpdatedAt()));
     }

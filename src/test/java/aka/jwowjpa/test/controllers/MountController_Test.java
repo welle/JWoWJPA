@@ -110,6 +110,8 @@ public class MountController_Test {
         Assert.assertEquals(mount.getId(), reloadedMount.getId());
         Assert.assertEquals(mount.getName(), reloadedMount.getName());
         Assert.assertEquals(mount.getNameEN(), reloadedMount.getNameEN());
+        System.err.println("[MountController_Test] Test_getItemById 1- " + this.icon);
+        System.err.println("[MountController_Test] Test_getItemById 2- " + mount.getIcon());
         Assert.assertEquals(this.icon, mount.getIcon());
         Assert.assertNotNull(mount.getIcon());
     }
@@ -119,7 +121,7 @@ public class MountController_Test {
      */
     @Test
     public void Test_getItems() {
-        final List<@NonNull Mount> totalMountList = this.mountController.getMounts();
+        final List<@NonNull Mount> totalMountList = this.mountController.getAll();
         Assert.assertNotNull(totalMountList);
         Assert.assertEquals(10, totalMountList.size());
     }
@@ -136,7 +138,7 @@ public class MountController_Test {
         mount.setIcon(this.icon);
         mount = this.mountController.insert(mount);
 
-        final List<@NonNull Mount> totalMountList = this.mountController.getMounts();
+        final List<@NonNull Mount> totalMountList = this.mountController.getAll();
         final List<@NonNull Mount> mountList = this.mountController.getMountByNameLike("Mount");
         Assert.assertNotNull(mountList);
         Assert.assertEquals(10, mountList.size());
@@ -163,7 +165,7 @@ public class MountController_Test {
         mount.setName("Mount inserted updated");
         mount.setNameEN("Mount EN name updated");
         mount.setIdCreature(Long.valueOf(20));
-        mount = this.mountController.update(mount);
+        this.mountController.update(mount);
 
         final Long id = mount.getId();
         Assert.assertNotNull(id);
