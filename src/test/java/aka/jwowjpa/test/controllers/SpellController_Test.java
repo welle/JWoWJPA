@@ -69,7 +69,6 @@ public class SpellController_Test {
         Assert.assertEquals(1, spellList.size());
         for (final Spell spell : spellList) {
             Assert.assertEquals(idWoW, spell.getIdWoW());
-            Assert.assertEquals(this.icon, spell.getIcon());
             Assert.assertNotNull(spell.getIcon());
             Assert.assertEquals("Spell " + idWoW, spell.getName());
             Assert.assertEquals("SpellEN " + idWoW, spell.getNameEN());
@@ -110,7 +109,6 @@ public class SpellController_Test {
         Assert.assertEquals(spell.getId(), reloadedSpell.getId());
         Assert.assertEquals(spell.getName(), reloadedSpell.getName());
         Assert.assertEquals(spell.getNameEN(), reloadedSpell.getNameEN());
-        Assert.assertEquals(this.icon, spell.getIcon());
         Assert.assertNotNull(spell.getIcon());
     }
 
@@ -143,7 +141,6 @@ public class SpellController_Test {
         Assert.assertNotEquals(totalSpellList.size(), spellList.size());
         for (final Spell currentSpell : spellList) {
             Assert.assertTrue(currentSpell.getName().startsWith("Spell"));
-            Assert.assertEquals(this.icon, currentSpell.getIcon());
             Assert.assertNotNull(currentSpell.getIcon());
         }
     }

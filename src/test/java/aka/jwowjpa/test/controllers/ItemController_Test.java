@@ -70,7 +70,6 @@ public class ItemController_Test {
         Assert.assertEquals(1, itemList.size());
         for (final Item item : itemList) {
             Assert.assertEquals(idWoW, item.getIdWoW());
-            Assert.assertEquals(this.icon, item.getIcon());
             Assert.assertNotNull(item.getIcon());
             Assert.assertEquals("Item " + idWoW, item.getName());
             Assert.assertEquals("ItemEN " + idWoW, item.getNameEN());
@@ -115,7 +114,7 @@ public class ItemController_Test {
         Assert.assertEquals(item.getName(), reloadedItem.getName());
         Assert.assertEquals(item.getNameEN(), reloadedItem.getNameEN());
         Assert.assertEquals(item.getQuality(), reloadedItem.getQuality());
-        Assert.assertEquals(this.icon, item.getIcon());
+        Assert.assertEquals(item.getIcon(), reloadedItem.getIcon());
         Assert.assertNotNull(item.getIcon());
     }
 
@@ -149,7 +148,6 @@ public class ItemController_Test {
         Assert.assertNotEquals(totalItemList.size(), itemList.size());
         for (final Item currentItem : itemList) {
             Assert.assertTrue(currentItem.getName().startsWith("Item"));
-            Assert.assertEquals(this.icon, item.getIcon());
             Assert.assertNotNull(currentItem.getIcon());
         }
     }

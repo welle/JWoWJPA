@@ -24,15 +24,4 @@ public class CryptoUtils_Test {
         Assert.assertEquals("0ae29b3ee870d58005182d34b72f3c9b1afb8c4c6102a76d46ffb53557bbf5cca30873a95fecbcecc7a1aaceb18bdad11c3ecd291bf86484849dd7d26f319d68", generatedHash);
     }
 
-    /**
-     * Test getSHA512SecurePassword method.
-     */
-    @Test
-    public void Test_getSHA512SecurePassword2() {
-        final String fakePassWord = "GXMWGVWXVZEBTYGU";
-        final String salt = "saltingcrypto";
-
-        final String generatedHash = CryptoUtils.getSHA512SecurePassword(fakePassWord, salt);
-        Assert.assertEquals("0ae29b3ee870d58005182d34b72f3c9b1afb8c4c6102a76d46ffb53557bbf5cca30873a95fecbcecc7a1aaceb18bdad11c3ecd291bf86484849dd7d26f319d68", generatedHash);
-    }
 }

@@ -69,7 +69,6 @@ public class MountController_Test {
         Assert.assertEquals(1, mountList.size());
         for (final Mount mount : mountList) {
             Assert.assertEquals(idCreature, mount.getIdCreature());
-            Assert.assertEquals(this.icon, mount.getIcon());
             Assert.assertNotNull(mount.getIcon());
             Assert.assertEquals("Mount " + idCreature, mount.getName());
             Assert.assertEquals("MountEN " + idCreature, mount.getNameEN());
@@ -110,9 +109,7 @@ public class MountController_Test {
         Assert.assertEquals(mount.getId(), reloadedMount.getId());
         Assert.assertEquals(mount.getName(), reloadedMount.getName());
         Assert.assertEquals(mount.getNameEN(), reloadedMount.getNameEN());
-        System.err.println("[MountController_Test] Test_getItemById 1- " + this.icon);
-        System.err.println("[MountController_Test] Test_getItemById 2- " + mount.getIcon());
-        Assert.assertEquals(this.icon, mount.getIcon());
+        Assert.assertEquals(mount.getIcon(), reloadedMount.getIcon());
         Assert.assertNotNull(mount.getIcon());
     }
 
@@ -145,7 +142,6 @@ public class MountController_Test {
         Assert.assertNotEquals(totalMountList.size(), mountList.size());
         for (final Mount currentMount : mountList) {
             Assert.assertTrue(currentMount.getName().startsWith("Mount"));
-            Assert.assertEquals(this.icon, currentMount.getIcon());
             Assert.assertNotNull(currentMount.getIcon());
         }
     }
