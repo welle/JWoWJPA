@@ -19,14 +19,14 @@
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost:3306/jwowtest?useSSL=false" />
-		<property name="username" value="root" />
-		<property name="password" value="TXzp198" />
+		<property name="url" value="jdbc:mysql://localhost:3306/jwowtestdb?useSSL=false" />
+		<property name="username" value="travis" />
+		<property name="password" value="" />
 	</bean>
 
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-		<property name="persistenceUnitName" value="jwowtest" />
+		<property name="persistenceUnitName" value="jwowtestdb" />
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
