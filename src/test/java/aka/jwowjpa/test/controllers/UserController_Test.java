@@ -2,9 +2,12 @@ package aka.jwowjpa.test.controllers;
 
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
 
+import org.awaitility.Awaitility;
 import org.eclipse.jdt.annotation.NonNull;
 import org.junit.After;
 import org.junit.Assert;
@@ -155,11 +158,11 @@ public class UserController_Test {
         final Date updatedDate = user.getUpdatedAt();
         Assert.assertNotNull(updatedDate);
 
-        Thread.sleep(2000);
-
         user.setName("User inserted updated");
         user.setEmail("User Email updated");
-        this.userController.update(user);
+        final UserUpdateCallable updateCallable = new UserUpdateCallable(this.userController, user);
+        Awaitility.await().atMost(2, TimeUnit.SECONDS).until(updateCallable);
+        Thread.sleep(2000);
 
         final Long id = user.getId();
         Assert.assertNotNull(id);
@@ -171,6 +174,30 @@ public class UserController_Test {
         Assert.assertEquals(createdDate, reloadedUser.getCreatedAt());
         Assert.assertNotEquals(updatedDate, reloadedUser.getUpdatedAt());
         Assert.assertTrue(updatedDate.before(reloadedUser.getUpdatedAt()));
+    }
+
+    private class UserUpdateCallable implements Callable<Boolean> {
+
+        private final UserController userController;
+        private final User user;
+
+        /**
+         * Constructor.
+         *
+         * @param userController
+         * @param user
+         */
+        public UserUpdateCallable(final UserController userController, final User user) {
+            this.userController = userController;
+            this.user = user;
+        }
+
+        @Override
+        public Boolean call() throws Exception {
+            this.userController.update(this.user);
+            return Boolean.TRUE;
+        }
+
     }
 
     /**

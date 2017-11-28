@@ -1,5 +1,7 @@
 package aka.jwowjpa.persistence.controllers;
 
+import java.util.logging.Level;
+
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -12,6 +14,8 @@ import org.eclipse.jdt.annotation.Nullable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import aka.jwowjpa.context.ApplicationContext;
+import aka.jwowjpa.exceptions.EntityManagerException;
 import aka.jwowjpa.persistence.models.User;
 import aka.jwowjpa.persistence.models.User_;
 
@@ -54,8 +58,14 @@ public class UserController extends AbstractController<User> {
             result = q.getSingleResult();
         } catch (final NoResultException e) {
             // No result found, nothing to do
+        } catch (final EntityManagerException e) {
+            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getUserById", e.getMessage(), e);
         } finally {
-            getEntityManager().close();
+            try {
+                getEntityManager().close();
+            } catch (final EntityManagerException e) {
+                ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getUserById", e.getMessage(), e);
+            }
         }
 
         return result;
@@ -83,8 +93,14 @@ public class UserController extends AbstractController<User> {
             result = q.getSingleResult();
         } catch (final NoResultException e) {
             // No result found, nothing to do
+        } catch (final EntityManagerException e) {
+            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getUserByEmail", e.getMessage(), e);
         } finally {
-            getEntityManager().close();
+            try {
+                getEntityManager().close();
+            } catch (final EntityManagerException e) {
+                ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getUserByEmail", e.getMessage(), e);
+            }
         }
 
         return result;

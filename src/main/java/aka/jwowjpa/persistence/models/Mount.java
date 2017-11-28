@@ -17,6 +17,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "mount")
+@SuppressWarnings("javadoc")
 public class Mount implements Serializable {
 
     private static final long serialVersionUID = -3926814206361328989L;

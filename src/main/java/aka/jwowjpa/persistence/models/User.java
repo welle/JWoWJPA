@@ -21,6 +21,7 @@ import org.hibernate.annotations.UpdateTimestamp;
  */
 @Entity
 @Table(name = "users")
+@SuppressWarnings("javadoc")
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1152285435822312549L;

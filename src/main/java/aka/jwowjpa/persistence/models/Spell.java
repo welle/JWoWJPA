@@ -20,6 +20,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "spell")
+@SuppressWarnings("javadoc")
 public class Spell implements Serializable {
 
     private static final long serialVersionUID = 8601953332244028881L;

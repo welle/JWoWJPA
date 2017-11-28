@@ -2,6 +2,7 @@ package aka.jwowjpa.persistence.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
@@ -16,6 +17,8 @@ import org.eclipse.jdt.annotation.Nullable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import aka.jwowjpa.context.ApplicationContext;
+import aka.jwowjpa.exceptions.EntityManagerException;
 import aka.jwowjpa.persistence.models.PasswordReset;
 import aka.jwowjpa.persistence.models.PasswordReset_;
 
@@ -58,8 +61,14 @@ public class PasswordResetController extends AbstractController<PasswordReset> {
             result = q.getSingleResult();
         } catch (final NoResultException e) {
             // No result found, nothing to do
+        } catch (final EntityManagerException e) {
+            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getPasswordResetById", e.getMessage(), e);
         } finally {
-            getEntityManager().close();
+            try {
+                getEntityManager().close();
+            } catch (final EntityManagerException e) {
+                ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getPasswordResetById", e.getMessage(), e);
+            }
         }
 
         return result;
@@ -89,8 +98,14 @@ public class PasswordResetController extends AbstractController<PasswordReset> {
             result = q.getSingleResult();
         } catch (final NoResultException e) {
             // No result found, nothing to do
+        } catch (final EntityManagerException e) {
+            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getPasswordResetByEmailPassword", e.getMessage(), e);
         } finally {
-            getEntityManager().close();
+            try {
+                getEntityManager().close();
+            } catch (final EntityManagerException e) {
+                ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getPasswordResetByEmailPassword", e.getMessage(), e);
+            }
         }
 
         return result;
@@ -117,8 +132,14 @@ public class PasswordResetController extends AbstractController<PasswordReset> {
             result = q.getResultList();
         } catch (final NoResultException e) {
             // No result found, nothing to do
+        } catch (final EntityManagerException e) {
+            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getPasswordResetByEmail", e.getMessage(), e);
         } finally {
-            getEntityManager().close();
+            try {
+                getEntityManager().close();
+            } catch (final EntityManagerException e) {
+                ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getPasswordResetByEmail", e.getMessage(), e);
+            }
         }
 
         return result;
@@ -144,8 +165,14 @@ public class PasswordResetController extends AbstractController<PasswordReset> {
             criteriaQuery.where(idEqual);
             final TypedQuery<PasswordReset> q = getEntityManager().createQuery(criteriaQuery);
             result = q.getResultList();
+        } catch (final EntityManagerException e) {
+            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getPasswordResetByIdList", e.getMessage(), e);
         } finally {
-            getEntityManager().close();
+            try {
+                getEntityManager().close();
+            } catch (final EntityManagerException e) {
+                ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getPasswordResetByIdList", e.getMessage(), e);
+            }
         }
 
         return result;

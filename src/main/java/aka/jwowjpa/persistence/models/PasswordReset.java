@@ -18,6 +18,7 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "passwordresets")
+@SuppressWarnings("javadoc")
 public class PasswordReset implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -35,6 +36,7 @@ public class PasswordReset implements Serializable {
     private String token;
 
     public PasswordReset() {
+        // Nothing to do
     }
 
     public Long getId() {

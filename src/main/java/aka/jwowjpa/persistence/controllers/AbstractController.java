@@ -15,6 +15,7 @@ import org.eclipse.jdt.annotation.NonNull;
 import org.springframework.transaction.annotation.Transactional;
 
 import aka.jwowjpa.context.ApplicationContext;
+import aka.jwowjpa.exceptions.EntityManagerException;
 
 /**
  * Abstract controller to be extended by all controllers.
@@ -46,13 +47,13 @@ public class AbstractController<T> {
      * Get the entity manager.
      *
      * @return the entityManager
-     * @throws IllegalStateException if EntityManager is null
+     * @throws EntityManagerException if EntityManager is null
      */
     @NonNull
-    public EntityManager getEntityManager() throws IllegalStateException {
+    public EntityManager getEntityManager() throws EntityManagerException {
         final EntityManager result = this.entityManager;
         if (result == null) {
-            throw new IllegalStateException();
+            throw new EntityManagerException("Entity manager was not found.");
         }
 
         return result;
@@ -68,14 +69,22 @@ public class AbstractController<T> {
     public List<@NonNull T> getAll() {
         List<@NonNull T> result = new ArrayList<>();
         try {
-            final CriteriaBuilder criteriaBuilder = this.entityManager.getCriteriaBuilder();
+            final CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
             final CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(this.typeParameterClass);
             final Root<T> root = criteriaQuery.from(this.typeParameterClass);
             criteriaQuery.select(root);
-            final TypedQuery<T> q = this.entityManager.createQuery(criteriaQuery);
+            final TypedQuery<T> q = getEntityManager().createQuery(criteriaQuery);
             result = q.getResultList();
+        } catch (final EntityManagerException e) {
+            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getAll", e.getMessage(), e);
+        } catch (final Exception e) {
+            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getAll", e.getMessage(), e);
         } finally {
-            this.entityManager.close();
+            try {
+                getEntityManager().close();
+            } catch (final EntityManagerException e) {
+                ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getAll", e.getMessage(), e);
+            }
         }
 
         return result;
@@ -91,12 +100,18 @@ public class AbstractController<T> {
     @NonNull
     public T insert(@NonNull final T item) {
         try {
-            this.entityManager.persist(item);
-            this.entityManager.refresh(item);
+            getEntityManager().persist(item);
+            getEntityManager().refresh(item);
+        } catch (final EntityManagerException e) {
+            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "insert", e.getMessage(), e);
         } catch (final Exception e) {
             ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "insert", e.getMessage(), e);
         } finally {
-            this.entityManager.close();
+            try {
+                getEntityManager().close();
+            } catch (final EntityManagerException e) {
+                ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "insert", e.getMessage(), e);
+            }
         }
 
         return item;
@@ -110,11 +125,17 @@ public class AbstractController<T> {
     @Transactional
     public void update(@NonNull final T item) {
         try {
-            this.entityManager.merge(item);
+            getEntityManager().merge(item);
+        } catch (final EntityManagerException e) {
+            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "update", e.getMessage(), e);
         } catch (final Exception e) {
             ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "update", e.getMessage(), e);
         } finally {
-            this.entityManager.close();
+            try {
+                getEntityManager().close();
+            } catch (final EntityManagerException e) {
+                ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "update", e.getMessage(), e);
+            }
         }
     }
 
@@ -126,11 +147,17 @@ public class AbstractController<T> {
     @Transactional
     public void delete(@NonNull final T item) {
         try {
-            this.entityManager.remove(item);
+            getEntityManager().remove(item);
+        } catch (final EntityManagerException e) {
+            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "delete", e.getMessage(), e);
         } catch (final Exception e) {
             ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "delete", e.getMessage(), e);
         } finally {
-            this.entityManager.close();
+            try {
+                getEntityManager().close();
+            } catch (final EntityManagerException e) {
+                ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "delete", e.getMessage(), e);
+            }
         }
     }
 
@@ -147,12 +174,18 @@ public class AbstractController<T> {
             String tableName = this.typeParameterClass.getSimpleName();
             tableName = Character.toUpperCase(tableName.charAt(0)) + tableName.substring(1);
 
-            final int deletedCount = this.entityManager.createQuery("DELETE FROM " + tableName).executeUpdate();
+            final int deletedCount = getEntityManager().createQuery("DELETE FROM " + tableName).executeUpdate();
             result = Integer.valueOf(deletedCount);
+        } catch (final EntityManagerException e) {
+            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "deleteAll", e.getMessage(), e);
         } catch (final Exception e) {
-            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "delete", e.getMessage(), e);
+            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "deleteAll", e.getMessage(), e);
         } finally {
-            this.entityManager.close();
+            try {
+                getEntityManager().close();
+            } catch (final EntityManagerException e) {
+                ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "deleteAll", e.getMessage(), e);
+            }
         }
 
         return result;

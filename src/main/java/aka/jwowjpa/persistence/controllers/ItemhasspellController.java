@@ -2,6 +2,7 @@ package aka.jwowjpa.persistence.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -13,6 +14,8 @@ import org.eclipse.jdt.annotation.NonNull;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import aka.jwowjpa.context.ApplicationContext;
+import aka.jwowjpa.exceptions.EntityManagerException;
 import aka.jwowjpa.persistence.models.ItemhasspellPK;
 import aka.jwowjpa.persistence.models.ItemhasspellPK_;
 
@@ -53,8 +56,14 @@ public class ItemhasspellController extends AbstractController<ItemhasspellPK> {
             criteriaQuery.where(idSpell);
             final TypedQuery<ItemhasspellPK> q = getEntityManager().createQuery(criteriaQuery);
             result = q.getResultList();
+        } catch (final EntityManagerException e) {
+            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getItemhasspellBySpellId", e.getMessage(), e);
         } finally {
-            getEntityManager().close();
+            try {
+                getEntityManager().close();
+            } catch (final EntityManagerException e) {
+                ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getItemhasspellBySpellId", e.getMessage(), e);
+            }
         }
 
         return result;
@@ -79,8 +88,14 @@ public class ItemhasspellController extends AbstractController<ItemhasspellPK> {
             criteriaQuery.where(idItem);
             final TypedQuery<ItemhasspellPK> q = getEntityManager().createQuery(criteriaQuery);
             result = q.getResultList();
+        } catch (final EntityManagerException e) {
+            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getItemhasspellByItemId", e.getMessage(), e);
         } finally {
-            getEntityManager().close();
+            try {
+                getEntityManager().close();
+            } catch (final EntityManagerException e) {
+                ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getItemhasspellByItemId", e.getMessage(), e);
+            }
         }
 
         return result;

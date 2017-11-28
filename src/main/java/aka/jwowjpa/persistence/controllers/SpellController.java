@@ -2,6 +2,7 @@ package aka.jwowjpa.persistence.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
@@ -17,6 +18,8 @@ import org.eclipse.jdt.annotation.Nullable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import aka.jwowjpa.context.ApplicationContext;
+import aka.jwowjpa.exceptions.EntityManagerException;
 import aka.jwowjpa.persistence.models.Spell;
 import aka.jwowjpa.persistence.models.Spell_;
 
@@ -59,8 +62,14 @@ public class SpellController extends AbstractController<Spell> {
             result = q.getSingleResult();
         } catch (final NoResultException e) {
             // No result found, nothing to do
+        } catch (final EntityManagerException e) {
+            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getLatestSpell", e.getMessage(), e);
         } finally {
-            getEntityManager().close();
+            try {
+                getEntityManager().close();
+            } catch (final EntityManagerException e) {
+                ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getLatestSpell", e.getMessage(), e);
+            }
         }
 
         return result;
@@ -87,8 +96,14 @@ public class SpellController extends AbstractController<Spell> {
             result = q.getSingleResult();
         } catch (final NoResultException e) {
             // No result found, nothing to do
+        } catch (final EntityManagerException e) {
+            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getSpellById", e.getMessage(), e);
         } finally {
-            getEntityManager().close();
+            try {
+                getEntityManager().close();
+            } catch (final EntityManagerException e) {
+                ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getSpellById", e.getMessage(), e);
+            }
         }
 
         return result;
@@ -114,8 +129,14 @@ public class SpellController extends AbstractController<Spell> {
             criteriaQuery.where(idEqual);
             final TypedQuery<Spell> q = getEntityManager().createQuery(criteriaQuery);
             result = q.getResultList();
+        } catch (final EntityManagerException e) {
+            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getSpellByIdList", e.getMessage(), e);
         } finally {
-            getEntityManager().close();
+            try {
+                getEntityManager().close();
+            } catch (final EntityManagerException e) {
+                ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getSpellByIdList", e.getMessage(), e);
+            }
         }
 
         return result;
@@ -140,8 +161,14 @@ public class SpellController extends AbstractController<Spell> {
             criteriaQuery.where(idWoWEqual);
             final TypedQuery<Spell> q = getEntityManager().createQuery(criteriaQuery);
             result = q.getResultList();
+        } catch (final EntityManagerException e) {
+            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getSpellByIdWoW", e.getMessage(), e);
         } finally {
-            getEntityManager().close();
+            try {
+                getEntityManager().close();
+            } catch (final EntityManagerException e) {
+                ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getSpellByIdWoW", e.getMessage(), e);
+            }
         }
 
         return result;
@@ -167,8 +194,14 @@ public class SpellController extends AbstractController<Spell> {
             criteriaQuery.where(criteriaBuilder.or(nameLike, nameENlike));
             final TypedQuery<Spell> q = getEntityManager().createQuery(criteriaQuery);
             result = q.getResultList();
+        } catch (final EntityManagerException e) {
+            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getSpellByNameLike", e.getMessage(), e);
         } finally {
-            getEntityManager().close();
+            try {
+                getEntityManager().close();
+            } catch (final EntityManagerException e) {
+                ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getSpellByNameLike", e.getMessage(), e);
+            }
         }
 
         return result;

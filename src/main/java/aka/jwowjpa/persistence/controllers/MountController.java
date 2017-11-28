@@ -2,6 +2,7 @@ package aka.jwowjpa.persistence.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
@@ -16,6 +17,8 @@ import org.eclipse.jdt.annotation.Nullable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import aka.jwowjpa.context.ApplicationContext;
+import aka.jwowjpa.exceptions.EntityManagerException;
 import aka.jwowjpa.persistence.models.Mount;
 import aka.jwowjpa.persistence.models.Mount_;
 
@@ -58,8 +61,14 @@ public class MountController extends AbstractController<Mount> {
             result = q.getSingleResult();
         } catch (final NoResultException e) {
             // No result found, nothing to do
+        } catch (final EntityManagerException e) {
+            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getLatestMount", e.getMessage(), e);
         } finally {
-            getEntityManager().close();
+            try {
+                getEntityManager().close();
+            } catch (final EntityManagerException e) {
+                ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getLatestMount", e.getMessage(), e);
+            }
         }
 
         return result;
@@ -85,8 +94,14 @@ public class MountController extends AbstractController<Mount> {
             criteriaQuery.where(criteriaBuilder.or(nameLike, nameENlike));
             final TypedQuery<Mount> q = getEntityManager().createQuery(criteriaQuery);
             result = q.getResultList();
+        } catch (final EntityManagerException e) {
+            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getMountByNameLike", e.getMessage(), e);
         } finally {
-            getEntityManager().close();
+            try {
+                getEntityManager().close();
+            } catch (final EntityManagerException e) {
+                ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getMountByNameLike", e.getMessage(), e);
+            }
         }
 
         return result;
@@ -111,8 +126,14 @@ public class MountController extends AbstractController<Mount> {
             criteriaQuery.where(idWoWEqual);
             final TypedQuery<Mount> q = getEntityManager().createQuery(criteriaQuery);
             result = q.getResultList();
+        } catch (final EntityManagerException e) {
+            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getMountByIdCreature", e.getMessage(), e);
         } finally {
-            getEntityManager().close();
+            try {
+                getEntityManager().close();
+            } catch (final EntityManagerException e) {
+                ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getMountByIdCreature", e.getMessage(), e);
+            }
         }
 
         return result;
@@ -139,8 +160,14 @@ public class MountController extends AbstractController<Mount> {
             result = q.getSingleResult();
         } catch (final NoResultException e) {
             // No result found, nothing to do
+        } catch (final EntityManagerException e) {
+            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getMountById", e.getMessage(), e);
         } finally {
-            getEntityManager().close();
+            try {
+                getEntityManager().close();
+            } catch (final EntityManagerException e) {
+                ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getMountById", e.getMessage(), e);
+            }
         }
 
         return result;

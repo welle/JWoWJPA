@@ -2,6 +2,7 @@ package aka.jwowjpa.persistence.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
@@ -17,6 +18,8 @@ import org.eclipse.jdt.annotation.Nullable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import aka.jwowjpa.context.ApplicationContext;
+import aka.jwowjpa.exceptions.EntityManagerException;
 import aka.jwowjpa.persistence.models.Item;
 import aka.jwowjpa.persistence.models.Item_;
 
@@ -59,8 +62,14 @@ public class ItemController extends AbstractController<Item> {
             result = q.getSingleResult();
         } catch (final NoResultException e) {
             // No result found, nothing to do
+        } catch (final EntityManagerException e) {
+            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getLatestItem", e.getMessage(), e);
         } finally {
-            getEntityManager().close();
+            try {
+                getEntityManager().close();
+            } catch (final EntityManagerException e) {
+                ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getLatestItem", e.getMessage(), e);
+            }
         }
 
         return result;
@@ -86,8 +95,14 @@ public class ItemController extends AbstractController<Item> {
             criteriaQuery.where(criteriaBuilder.or(nameLike, nameENlike));
             final TypedQuery<Item> q = getEntityManager().createQuery(criteriaQuery);
             result = q.getResultList();
+        } catch (final EntityManagerException e) {
+            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getItemByNameLike", e.getMessage(), e);
         } finally {
-            getEntityManager().close();
+            try {
+                getEntityManager().close();
+            } catch (final EntityManagerException e) {
+                ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getItemByNameLike", e.getMessage(), e);
+            }
         }
 
         return result;
@@ -112,8 +127,14 @@ public class ItemController extends AbstractController<Item> {
             criteriaQuery.where(idWoWEqual);
             final TypedQuery<Item> q = getEntityManager().createQuery(criteriaQuery);
             result = q.getResultList();
+        } catch (final EntityManagerException e) {
+            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getItemByIdWoW", e.getMessage(), e);
         } finally {
-            getEntityManager().close();
+            try {
+                getEntityManager().close();
+            } catch (final EntityManagerException e) {
+                ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getItemByIdWoW", e.getMessage(), e);
+            }
         }
 
         return result;
@@ -140,8 +161,14 @@ public class ItemController extends AbstractController<Item> {
             result = q.getSingleResult();
         } catch (final NoResultException e) {
             // No result found, nothing to do
+        } catch (final EntityManagerException e) {
+            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getItemById", e.getMessage(), e);
         } finally {
-            getEntityManager().close();
+            try {
+                getEntityManager().close();
+            } catch (final EntityManagerException e) {
+                ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getItemById", e.getMessage(), e);
+            }
         }
 
         return result;
@@ -167,8 +194,14 @@ public class ItemController extends AbstractController<Item> {
             criteriaQuery.where(idEqual);
             final TypedQuery<Item> q = getEntityManager().createQuery(criteriaQuery);
             result = q.getResultList();
+        } catch (final EntityManagerException e) {
+            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getItemByIdList", e.getMessage(), e);
         } finally {
-            getEntityManager().close();
+            try {
+                getEntityManager().close();
+            } catch (final EntityManagerException e) {
+                ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getItemByIdList", e.getMessage(), e);
+            }
         }
 
         return result;
