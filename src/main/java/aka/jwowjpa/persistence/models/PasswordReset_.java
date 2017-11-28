@@ -5,7 +5,7 @@ import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="Dali", date="2017-11-28T12:48:43.106+0100")
+@Generated(value="Dali", date="2017-11-28T13:48:59.851+0100")
 @StaticMetamodel(PasswordReset.class)
 public class PasswordReset_ {
 	public static volatile SingularAttribute<PasswordReset, Long> id;
