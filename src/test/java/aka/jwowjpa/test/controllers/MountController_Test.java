@@ -182,4 +182,40 @@ public class MountController_Test {
         Assert.assertEquals(mount.getIcon(), reloadedMount.getIcon());
         Assert.assertNotNull(reloadedMount.getIcon());
     }
+
+    /**
+     * Test delete method.
+     */
+    @Test
+    public void Test_delete() {
+        Mount mount = new Mount();
+        mount.setName("Mount inserted ");
+        mount.setNameEN("Mount EN name");
+        mount.setIdCreature(Long.valueOf(15));
+        mount.setIcon(this.icon);
+        mount = this.mountController.insert(mount);
+
+        final Long id = mount.getId();
+        Assert.assertNotNull(id);
+        Mount reloadedMount = this.mountController.getMountById(id);
+        Assert.assertNotNull(reloadedMount);
+        Assert.assertEquals(mount.getId(), reloadedMount.getId());
+        Assert.assertEquals(mount.getName(), reloadedMount.getName());
+        Assert.assertEquals(mount.getNameEN(), reloadedMount.getNameEN());
+        Assert.assertEquals(mount.getIcon(), reloadedMount.getIcon());
+        Assert.assertNotNull(reloadedMount.getIcon());
+
+        this.mountController.delete(reloadedMount);
+        reloadedMount = this.mountController.getMountById(id);
+        Assert.assertNull(reloadedMount);
+    }
+
+    /**
+     * Test delete method.
+     */
+    @Test
+    public void Test_deleteAll() {
+        final Integer countDelete = this.mountController.deleteAll();
+        Assert.assertEquals(Integer.valueOf(10), countDelete);
+    }
 }

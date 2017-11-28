@@ -1,5 +1,6 @@
 package aka.jwowjpa.test.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -61,7 +62,7 @@ public class SpellController_Test {
      * Test getLatestItem method.
      */
     @Test
-    public void Test_getLatestItem() {
+    public void Test_getLatestSpell() {
         final Spell spell = this.spellController.getLatestSpell();
         Assert.assertNotNull(spell);
         Assert.assertEquals(Long.valueOf(9), spell.getIdWoW());
@@ -71,7 +72,7 @@ public class SpellController_Test {
      * Test getItemByIdWoW method.
      */
     @Test
-    public void Test_getItemByIdWoW() {
+    public void Test_getSpellByIdWoW() {
         final Long idWoW = Long.valueOf(5);
         final List<@NonNull Spell> spellList = this.spellController.getSpellByIdWoW(idWoW);
         Assert.assertNotNull(spellList);
@@ -103,7 +104,7 @@ public class SpellController_Test {
      * Test getItemById method.
      */
     @Test
-    public void Test_getItemById() {
+    public void Test_getSpellById() {
         Spell spell = new Spell();
         spell.setName("Spell inserted ");
         spell.setNameEN("Spell EN name");
@@ -122,10 +123,32 @@ public class SpellController_Test {
     }
 
     /**
+     * Test getItemByIdList method.
+     */
+    @Test
+    public void Test_getItemByIdList() {
+        Spell spell = new Spell();
+        spell.setName("Spell inserted ");
+        spell.setNameEN("Spell EN name");
+        spell.setIdWoW(Long.valueOf(15));
+        spell.setIcon(this.icon);
+        spell = this.spellController.insert(spell);
+
+        final Long id = spell.getId();
+        Assert.assertNotNull(id);
+        final List<@NonNull Long> idList = new ArrayList<>();
+        idList.add(id);
+        idList.add(Long.valueOf(-1));
+        final List<Spell> spellList = this.spellController.getSpellByIdList(idList);
+        Assert.assertNotNull(spellList);
+        Assert.assertEquals(1, spellList.size());
+    }
+
+    /**
      * Test getItems method.
      */
     @Test
-    public void Test_getItems() {
+    public void Test_getSpells() {
         final List<@NonNull Spell> totalSpellList = this.spellController.getAll();
         Assert.assertNotNull(totalSpellList);
         Assert.assertEquals(10, totalSpellList.size());
@@ -135,7 +158,7 @@ public class SpellController_Test {
      * Test getItemByNameLike method.
      */
     @Test
-    public void Test_getItemByNameLike() {
+    public void Test_getSpellByNameLike() {
         Spell spell = new Spell();
         spell.setName("inserted Spell");
         spell.setNameEN("inserted SpellEn");
@@ -180,5 +203,41 @@ public class SpellController_Test {
         Assert.assertEquals(spell.getNameEN(), reloadedSpell.getNameEN());
         Assert.assertEquals(spell.getIcon(), reloadedSpell.getIcon());
         Assert.assertNotNull(reloadedSpell.getIcon());
+    }
+
+    /**
+     * Test delete method.
+     */
+    @Test
+    public void Test_delete() {
+        Spell spell = new Spell();
+        spell.setName("Spell inserted ");
+        spell.setNameEN("Spell EN name");
+        spell.setIdWoW(Long.valueOf(15));
+        spell.setIcon(this.icon);
+        spell = this.spellController.insert(spell);
+
+        final Long id = spell.getId();
+        Assert.assertNotNull(id);
+        Spell reloadedSpell = this.spellController.getSpellById(id);
+        Assert.assertNotNull(reloadedSpell);
+        Assert.assertEquals(spell.getId(), reloadedSpell.getId());
+        Assert.assertEquals(spell.getName(), reloadedSpell.getName());
+        Assert.assertEquals(spell.getNameEN(), reloadedSpell.getNameEN());
+        Assert.assertEquals(spell.getIcon(), reloadedSpell.getIcon());
+        Assert.assertNotNull(reloadedSpell.getIcon());
+
+        this.spellController.delete(reloadedSpell);
+        reloadedSpell = this.spellController.getSpellById(id);
+        Assert.assertNull(reloadedSpell);
+    }
+
+    /**
+     * Test delete method.
+     */
+    @Test
+    public void Test_deleteAll() {
+        final Integer countDelete = this.spellController.deleteAll();
+        Assert.assertEquals(Integer.valueOf(10), countDelete);
     }
 }

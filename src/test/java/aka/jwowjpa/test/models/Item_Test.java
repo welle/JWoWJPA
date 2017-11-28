@@ -15,7 +15,7 @@ import aka.jwowjpa.persistence.models.Spell;
 import aka.jwowjpa.test.TestHelper;
 
 /**
- * Integration tests for Item.
+ * Unit tests for Item.
  *
  * @author charlottew
  */

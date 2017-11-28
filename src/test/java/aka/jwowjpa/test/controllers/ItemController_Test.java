@@ -1,5 +1,6 @@
 package aka.jwowjpa.test.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -128,6 +129,29 @@ public class ItemController_Test {
     }
 
     /**
+     * Test getItemByIdList method.
+     */
+    @Test
+    public void Test_getItemByIdList() {
+        Item item = new Item();
+        item.setName("Item inserted");
+        item.setNameEN("Item EN name");
+        item.setIdWoW(Long.valueOf(15));
+        item.setQuality("4");
+        item.setIcon(this.icon);
+        item = this.itemController.insert(item);
+
+        final Long id = item.getId();
+        Assert.assertNotNull(id);
+        final List<@NonNull Long> idList = new ArrayList<>();
+        idList.add(id);
+        idList.add(Long.valueOf(-1));
+        final List<Item> itemList = this.itemController.getItemByIdList(idList);
+        Assert.assertNotNull(itemList);
+        Assert.assertEquals(1, itemList.size());
+    }
+
+    /**
      * Test getItems method.
      */
     @Test
@@ -190,5 +214,43 @@ public class ItemController_Test {
         Assert.assertEquals(item.getQuality(), reloadedItem.getQuality());
         Assert.assertEquals(item.getIcon(), reloadedItem.getIcon());
         Assert.assertNotNull(reloadedItem.getIcon());
+    }
+
+    /**
+     * Test delete method.
+     */
+    @Test
+    public void Test_delete() {
+        Item item = new Item();
+        item.setName("Item inserted");
+        item.setNameEN("Item EN name");
+        item.setIdWoW(Long.valueOf(15));
+        item.setQuality("4");
+        item.setIcon(this.icon);
+        item = this.itemController.insert(item);
+
+        final Long id = item.getId();
+        Assert.assertNotNull(id);
+        Item reloadedItem = this.itemController.getItemById(id);
+        Assert.assertNotNull(reloadedItem);
+        Assert.assertEquals(item.getId(), reloadedItem.getId());
+        Assert.assertEquals(item.getName(), reloadedItem.getName());
+        Assert.assertEquals(item.getNameEN(), reloadedItem.getNameEN());
+        Assert.assertEquals(item.getQuality(), reloadedItem.getQuality());
+        Assert.assertEquals(item.getIcon(), reloadedItem.getIcon());
+        Assert.assertNotNull(reloadedItem.getIcon());
+
+        this.itemController.delete(reloadedItem);
+        reloadedItem = this.itemController.getItemById(id);
+        Assert.assertNull(reloadedItem);
+    }
+
+    /**
+     * Test delete method.
+     */
+    @Test
+    public void Test_deleteAll() {
+        final Integer countDelete = this.itemController.deleteAll();
+        Assert.assertEquals(Integer.valueOf(10), countDelete);
     }
 }

@@ -172,4 +172,13 @@ public class UserController_Test {
         Assert.assertNotEquals(updatedDate, reloadedUser.getUpdatedAt());
         Assert.assertTrue(updatedDate.before(reloadedUser.getUpdatedAt()));
     }
+
+    /**
+     * Test delete method.
+     */
+    @Test
+    public void Test_deleteAll() {
+        final Integer countDelete = this.userController.deleteAll();
+        Assert.assertEquals(Integer.valueOf(10), countDelete);
+    }
 }

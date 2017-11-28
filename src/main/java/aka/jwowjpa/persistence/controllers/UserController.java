@@ -1,5 +1,6 @@
 package aka.jwowjpa.persistence.controllers;
 
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import aka.jwowjpa.persistence.models.User;
+import aka.jwowjpa.persistence.models.User_;
 
 /**
  * User controller.
@@ -46,10 +48,12 @@ public class UserController extends AbstractController<User> {
             final CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
             final Root<User> root = criteriaQuery.from(User.class);
             criteriaQuery.select(root);
-            final Predicate idEqual = criteriaBuilder.equal(root.get("id"), id);
+            final Predicate idEqual = criteriaBuilder.equal(root.get(User_.id), id);
             criteriaQuery.where(idEqual);
             final TypedQuery<User> q = getEntityManager().createQuery(criteriaQuery);
             result = q.getSingleResult();
+        } catch (final NoResultException e) {
+            // No result found, nothing to do
         } finally {
             getEntityManager().close();
         }
@@ -72,11 +76,13 @@ public class UserController extends AbstractController<User> {
             final CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
             final Root<User> root = criteriaQuery.from(User.class);
             criteriaQuery.select(root);
-            final Predicate idEqual = criteriaBuilder.equal(root.get("email"), email);
+            final Predicate idEqual = criteriaBuilder.equal(root.get(User_.email), email);
             criteriaQuery.where(idEqual);
             final TypedQuery<User> q = getEntityManager().createQuery(criteriaQuery);
             q.setMaxResults(1);
             result = q.getSingleResult();
+        } catch (final NoResultException e) {
+            // No result found, nothing to do
         } finally {
             getEntityManager().close();
         }

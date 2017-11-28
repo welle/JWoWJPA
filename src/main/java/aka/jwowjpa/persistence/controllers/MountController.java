@@ -3,6 +3,7 @@ package aka.jwowjpa.persistence.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import aka.jwowjpa.persistence.models.Mount;
+import aka.jwowjpa.persistence.models.Mount_;
 
 /**
  * Mount controller.
@@ -49,11 +51,13 @@ public class MountController extends AbstractController<Mount> {
             final CriteriaQuery<Mount> criteriaQuery = criteriaBuilder.createQuery(Mount.class);
             final Root<Mount> root = criteriaQuery.from(Mount.class);
             criteriaQuery.select(root);
-            final Order orderBy = criteriaBuilder.desc(root.get("idCreature"));
+            final Order orderBy = criteriaBuilder.desc(root.get(Mount_.idCreature));
             criteriaQuery.orderBy(orderBy);
             final TypedQuery<Mount> q = getEntityManager().createQuery(criteriaQuery);
             q.setMaxResults(1);
             result = q.getSingleResult();
+        } catch (final NoResultException e) {
+            // No result found, nothing to do
         } finally {
             getEntityManager().close();
         }
@@ -76,8 +80,8 @@ public class MountController extends AbstractController<Mount> {
             final CriteriaQuery<Mount> criteriaQuery = criteriaBuilder.createQuery(Mount.class);
             final Root<Mount> root = criteriaQuery.from(Mount.class);
             criteriaQuery.select(root);
-            final Predicate nameLike = criteriaBuilder.like(root.get("name"), terms + "%");
-            final Predicate nameENlike = criteriaBuilder.like(root.get("nameEN"), terms + "%");
+            final Predicate nameLike = criteriaBuilder.like(root.get(Mount_.name), terms + "%");
+            final Predicate nameENlike = criteriaBuilder.like(root.get(Mount_.nameEN), terms + "%");
             criteriaQuery.where(criteriaBuilder.or(nameLike, nameENlike));
             final TypedQuery<Mount> q = getEntityManager().createQuery(criteriaQuery);
             result = q.getResultList();
@@ -103,7 +107,7 @@ public class MountController extends AbstractController<Mount> {
             final CriteriaQuery<Mount> criteriaQuery = criteriaBuilder.createQuery(Mount.class);
             final Root<Mount> root = criteriaQuery.from(Mount.class);
             criteriaQuery.select(root);
-            final Predicate idWoWEqual = criteriaBuilder.equal(root.get("idCreature"), id);
+            final Predicate idWoWEqual = criteriaBuilder.equal(root.get(Mount_.idCreature), id);
             criteriaQuery.where(idWoWEqual);
             final TypedQuery<Mount> q = getEntityManager().createQuery(criteriaQuery);
             result = q.getResultList();
@@ -129,10 +133,12 @@ public class MountController extends AbstractController<Mount> {
             final CriteriaQuery<Mount> criteriaQuery = criteriaBuilder.createQuery(Mount.class);
             final Root<Mount> root = criteriaQuery.from(Mount.class);
             criteriaQuery.select(root);
-            final Predicate idEqual = criteriaBuilder.equal(root.get("id"), id);
+            final Predicate idEqual = criteriaBuilder.equal(root.get(Mount_.id), id);
             criteriaQuery.where(idEqual);
             final TypedQuery<Mount> q = getEntityManager().createQuery(criteriaQuery);
             result = q.getSingleResult();
+        } catch (final NoResultException e) {
+            // No result found, nothing to do
         } finally {
             getEntityManager().close();
         }

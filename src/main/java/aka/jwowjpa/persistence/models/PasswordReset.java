@@ -5,32 +5,44 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 /**
- * The persistent class for the password_resets database table.
+ * The persistent class for the passwordresets database table.
  *
  */
 @Entity
-@Table(name = "password_resets")
+@Table(name = "passwordresets")
 public class PasswordReset implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = 2039237167156262962L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(insertable = false, updatable = false)
+    private Long id;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_at")
+    @Column(insertable = false, updatable = false)
     private Date createdAt;
 
     private String email;
 
-    @Id
     private String token;
 
     public PasswordReset() {
-        // Nothing to do
+    }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(final Long id) {
+        this.id = id;
     }
 
     public Date getCreatedAt() {

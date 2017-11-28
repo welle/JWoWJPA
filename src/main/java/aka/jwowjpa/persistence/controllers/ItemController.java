@@ -3,9 +3,11 @@ package aka.jwowjpa.persistence.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import aka.jwowjpa.persistence.models.Item;
+import aka.jwowjpa.persistence.models.Item_;
 
 /**
  * Item controller.
@@ -49,11 +52,13 @@ public class ItemController extends AbstractController<Item> {
             final CriteriaQuery<Item> criteriaQuery = criteriaBuilder.createQuery(Item.class);
             final Root<Item> root = criteriaQuery.from(Item.class);
             criteriaQuery.select(root);
-            final Order orderBy = criteriaBuilder.desc(root.get("idWoW"));
+            final Order orderBy = criteriaBuilder.desc(root.get(Item_.idWoW));
             criteriaQuery.orderBy(orderBy);
             final TypedQuery<Item> q = getEntityManager().createQuery(criteriaQuery);
             q.setMaxResults(1);
             result = q.getSingleResult();
+        } catch (final NoResultException e) {
+            // No result found, nothing to do
         } finally {
             getEntityManager().close();
         }
@@ -76,8 +81,8 @@ public class ItemController extends AbstractController<Item> {
             final CriteriaQuery<Item> criteriaQuery = criteriaBuilder.createQuery(Item.class);
             final Root<Item> root = criteriaQuery.from(Item.class);
             criteriaQuery.select(root);
-            final Predicate nameLike = criteriaBuilder.like(root.get("name"), terms + "%");
-            final Predicate nameENlike = criteriaBuilder.like(root.get("nameEN"), terms + "%");
+            final Predicate nameLike = criteriaBuilder.like(root.get(Item_.name), terms + "%");
+            final Predicate nameENlike = criteriaBuilder.like(root.get(Item_.nameEN), terms + "%");
             criteriaQuery.where(criteriaBuilder.or(nameLike, nameENlike));
             final TypedQuery<Item> q = getEntityManager().createQuery(criteriaQuery);
             result = q.getResultList();
@@ -103,7 +108,7 @@ public class ItemController extends AbstractController<Item> {
             final CriteriaQuery<Item> criteriaQuery = criteriaBuilder.createQuery(Item.class);
             final Root<Item> root = criteriaQuery.from(Item.class);
             criteriaQuery.select(root);
-            final Predicate idWoWEqual = criteriaBuilder.equal(root.get("idWoW"), idWoW);
+            final Predicate idWoWEqual = criteriaBuilder.equal(root.get(Item_.idWoW), idWoW);
             criteriaQuery.where(idWoWEqual);
             final TypedQuery<Item> q = getEntityManager().createQuery(criteriaQuery);
             result = q.getResultList();
@@ -129,10 +134,39 @@ public class ItemController extends AbstractController<Item> {
             final CriteriaQuery<Item> criteriaQuery = criteriaBuilder.createQuery(Item.class);
             final Root<Item> root = criteriaQuery.from(Item.class);
             criteriaQuery.select(root);
-            final Predicate idEqual = criteriaBuilder.equal(root.get("id"), id);
+            final Predicate idEqual = criteriaBuilder.equal(root.get(Item_.id), id);
             criteriaQuery.where(idEqual);
             final TypedQuery<Item> q = getEntityManager().createQuery(criteriaQuery);
             result = q.getSingleResult();
+        } catch (final NoResultException e) {
+            // No result found, nothing to do
+        } finally {
+            getEntityManager().close();
+        }
+
+        return result;
+    }
+
+    /**
+     * Get item(s) by the id list.
+     *
+     * @param idList
+     * @return list of item(s)
+     */
+    @Transactional
+    @NonNull
+    public List<@NonNull Item> getItemByIdList(@NonNull final List<@NonNull Long> idList) {
+        List<@NonNull Item> result = new ArrayList<>();
+        try {
+            final CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
+            final CriteriaQuery<Item> criteriaQuery = criteriaBuilder.createQuery(Item.class);
+            final Root<Item> root = criteriaQuery.from(Item.class);
+            criteriaQuery.select(root);
+            final Expression<Long> exp = root.get(Item_.id);
+            final Predicate idEqual = exp.in(idList);
+            criteriaQuery.where(idEqual);
+            final TypedQuery<Item> q = getEntityManager().createQuery(criteriaQuery);
+            result = q.getResultList();
         } finally {
             getEntityManager().close();
         }
