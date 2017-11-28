@@ -3,14 +3,20 @@ package aka.jwowjpa.utils;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
 
 import org.eclipse.jdt.annotation.NonNull;
 import org.eclipse.jdt.annotation.Nullable;
 
+import aka.jwowjpa.context.ApplicationContext;
+
 /**
  * A utility class to handle Security.
  */
-public class CryptoUtils {
+public final class CryptoUtils {
+
+    @NonNull
+    private static final String CLASS_NAME = CryptoUtils.class.getSimpleName();
 
     /**
      * Get the hash key from the given passwordToHash and salt.
@@ -32,7 +38,7 @@ public class CryptoUtils {
             }
             generatedPassword = sb.toString();
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
-            e.printStackTrace();
+            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getSHA512SecurePassword", e.getMessage(), e);
         }
         return generatedPassword;
     }

@@ -52,6 +52,7 @@ public class Spell implements Serializable {
     private List<Mount> mounts;
 
     public Spell() {
+        // Nothing to do
     }
 
     public Long getId() {

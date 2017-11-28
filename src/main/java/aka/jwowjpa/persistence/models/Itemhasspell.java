@@ -25,6 +25,7 @@ public class Itemhasspell implements Serializable {
     private Long idSpell;
 
     public Itemhasspell() {
+        // Nothing to do
     }
 
     public Long getIdItem() {

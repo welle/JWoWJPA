@@ -25,6 +25,9 @@ import aka.jwowjpa.persistence.models.Item;
 @Repository
 public class ItemController extends AbstractController<Item> {
 
+    @NonNull
+    private static final String CLASS_NAME = ItemController.class.getSimpleName();
+
     /**
      * Constructor.
      */

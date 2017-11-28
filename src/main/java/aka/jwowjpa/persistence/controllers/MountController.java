@@ -25,6 +25,9 @@ import aka.jwowjpa.persistence.models.Mount;
 @Repository
 public class MountController extends AbstractController<Mount> {
 
+    @NonNull
+    private static final String CLASS_NAME = MountController.class.getSimpleName();
+
     /**
      * Constructor.
      */

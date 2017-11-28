@@ -30,6 +30,7 @@ public class PasswordReset implements Serializable {
     private String token;
 
     public PasswordReset() {
+        // Nothing to do
     }
 
     public Date getCreatedAt() {

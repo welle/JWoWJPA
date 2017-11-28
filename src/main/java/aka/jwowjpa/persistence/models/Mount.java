@@ -56,6 +56,7 @@ public class Mount implements Serializable {
     private Spell spell;
 
     public Mount() {
+        // Nothing to do
     }
 
     public Long getId() {

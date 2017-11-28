@@ -51,6 +51,7 @@ public class User implements Serializable {
     private Date updatedAt;
 
     public User() {
+        // Nothing to do
     }
 
     public Long getId() {

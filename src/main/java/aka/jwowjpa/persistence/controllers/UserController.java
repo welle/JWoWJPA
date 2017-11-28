@@ -21,6 +21,9 @@ import aka.jwowjpa.persistence.models.User;
 @Repository
 public class UserController extends AbstractController<User> {
 
+    @NonNull
+    private static final String CLASS_NAME = UserController.class.getSimpleName();
+
     /**
      * Constructor.
      */

@@ -25,6 +25,9 @@ import aka.jwowjpa.persistence.models.Spell;
 @Repository
 public class SpellController extends AbstractController<Spell> {
 
+    @NonNull
+    private static final String CLASS_NAME = SpellController.class.getSimpleName();
+
     /**
      * Constructor.
      */

@@ -25,6 +25,9 @@ import aka.jwowjpa.context.ApplicationContext;
 public class AbstractController<T> {
 
     @NonNull
+    private static final String CLASS_NAME = AbstractController.class.getSimpleName();
+
+    @NonNull
     private final Class<T> typeParameterClass;
 
     @PersistenceContext
@@ -91,7 +94,7 @@ public class AbstractController<T> {
             this.entityManager.persist(item);
             this.entityManager.refresh(item);
         } catch (final Exception e) {
-            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, "AbstractController", "insert", e.getMessage(), e);
+            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "insert", e.getMessage(), e);
         } finally {
             this.entityManager.close();
         }
@@ -109,7 +112,7 @@ public class AbstractController<T> {
         try {
             this.entityManager.merge(item);
         } catch (final Exception e) {
-            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, "AbstractController", "update", e.getMessage(), e);
+            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "update", e.getMessage(), e);
         } finally {
             this.entityManager.close();
         }
@@ -125,7 +128,7 @@ public class AbstractController<T> {
         try {
             this.entityManager.remove(item);
         } catch (final Exception e) {
-            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, "AbstractController", "delete", e.getMessage(), e);
+            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "delete", e.getMessage(), e);
         } finally {
             this.entityManager.close();
         }
@@ -147,7 +150,7 @@ public class AbstractController<T> {
             final int deletedCount = this.entityManager.createQuery("DELETE FROM " + tableName).executeUpdate();
             result = Integer.valueOf(deletedCount);
         } catch (final Exception e) {
-            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, "AbstractController", "delete", e.getMessage(), e);
+            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "delete", e.getMessage(), e);
         } finally {
             this.entityManager.close();
         }
