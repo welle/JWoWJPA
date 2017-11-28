@@ -130,4 +130,28 @@ public class AbstractController<T> {
             this.entityManager.close();
         }
     }
+
+    /**
+     * Delete all.
+     *
+     * @return number of deleted rows.
+     */
+    @Transactional
+    @NonNull
+    public Integer deleteAll() {
+        Integer result = Integer.valueOf(0);
+        try {
+            String tableName = this.typeParameterClass.getSimpleName();
+            tableName = Character.toUpperCase(tableName.charAt(0)) + tableName.substring(1);
+
+            final int deletedCount = this.entityManager.createQuery("DELETE FROM " + tableName).executeUpdate();
+            result = Integer.valueOf(deletedCount);
+        } catch (final Exception e) {
+            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, "AbstractController", "delete", e.getMessage(), e);
+        } finally {
+            this.entityManager.close();
+        }
+
+        return result;
+    }
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.eclipse.jdt.annotation.NonNull;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,6 +47,14 @@ public class MountController_Test {
             mount.setIcon(this.icon);
             this.mountController.insert(mount);
         }
+    }
+
+    /**
+     * Clean the test.
+     */
+    @After
+    public void cleanUp() {
+        this.mountController.deleteAll();
     }
 
     /**

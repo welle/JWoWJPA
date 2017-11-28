@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.eclipse.jdt.annotation.NonNull;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,6 +48,14 @@ public class ItemController_Test {
             item.setIcon(this.icon);
             this.itemController.insert(item);
         }
+    }
+
+    /**
+     * Clean the test.
+     */
+    @After
+    public void cleanUp() {
+        this.itemController.deleteAll();
     }
 
     /**
