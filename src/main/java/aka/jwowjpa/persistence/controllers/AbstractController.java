@@ -75,8 +75,6 @@ public class AbstractController<T> {
             criteriaQuery.select(root);
             final TypedQuery<T> q = getEntityManager().createQuery(criteriaQuery);
             result = q.getResultList();
-        } catch (final EntityManagerException e) {
-            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getAll", e.getMessage(), e);
         } catch (final Exception e) {
             ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "getAll", e.getMessage(), e);
         } finally {
@@ -102,8 +100,6 @@ public class AbstractController<T> {
         try {
             getEntityManager().persist(item);
             getEntityManager().refresh(item);
-        } catch (final EntityManagerException e) {
-            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "insert", e.getMessage(), e);
         } catch (final Exception e) {
             ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "insert", e.getMessage(), e);
         } finally {
@@ -126,8 +122,6 @@ public class AbstractController<T> {
     public void update(@NonNull final T item) {
         try {
             getEntityManager().merge(item);
-        } catch (final EntityManagerException e) {
-            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "update", e.getMessage(), e);
         } catch (final Exception e) {
             ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "update", e.getMessage(), e);
         } finally {
@@ -148,8 +142,6 @@ public class AbstractController<T> {
     public void delete(@NonNull final T item) {
         try {
             getEntityManager().remove(item);
-        } catch (final EntityManagerException e) {
-            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "delete", e.getMessage(), e);
         } catch (final Exception e) {
             ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "delete", e.getMessage(), e);
         } finally {
@@ -176,8 +168,6 @@ public class AbstractController<T> {
 
             final int deletedCount = getEntityManager().createQuery("DELETE FROM " + tableName).executeUpdate();
             result = Integer.valueOf(deletedCount);
-        } catch (final EntityManagerException e) {
-            ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "deleteAll", e.getMessage(), e);
         } catch (final Exception e) {
             ApplicationContext.getInstance().getLogger().logp(Level.SEVERE, CLASS_NAME, "deleteAll", e.getMessage(), e);
         } finally {

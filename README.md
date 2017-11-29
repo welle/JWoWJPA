@@ -24,7 +24,7 @@ in your dependencies.
 
 ### Version
 
-Go to [my maven repository](https://github.com/welle/maven-repostitory/tree/master/aka/jwowjpa/JWoWJPA) to get the latest version.
+Go to [my maven repository](https://github.com/welle/maven-repository/tree/master/aka/jwowjpa/JWoWJPA) to get the latest version.
 
 ## Notes
 Need the eclipse-external-annotations-m2e-plugin: 
