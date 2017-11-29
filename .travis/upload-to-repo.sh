@@ -8,6 +8,6 @@ git remote add origin https://welle:$GITHUB_API_KEY@github.com/welle/maven-repos
 git add .
 git commit -m "Travis build $TRAVIS_BUILD_NUMBER pushed [skip ci] "
 git fetch
-git merge origin/master --allow-unrelated-histories
+git merge origin/master -X ours --allow-unrelated-histories
 git push -fq origin master > /dev/null
 echo -e "Done\n"
